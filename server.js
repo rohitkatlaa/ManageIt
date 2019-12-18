@@ -1,25 +1,31 @@
 const express=require('express');
 const mongoose=require('mongoose');
-const bodyParser=require('body-parser');
+const config = require('config');
 
-const complain=require('./routes/api/complain');
+
 
 const app=express();
 
 // BodyParser middleware
-app.use(bodyParser.json());
+app.use(express.json());
 
 // DB Config
 
-const db=require("./config/keys").mongoURI;
+const db=config.get('mongoURI');
 
 // Connect to MongoDB
-mongoose.connect(db)
+mongoose.connect(db,{
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true
+})
   .then(()=> console.log("MongoDb Connected..."))
   .catch(err=> console.log(err));
 
 // use Routes
-app.use('/api/complains',complain);
+app.use('/api/complains',require('./routes/api/complain'));
+app.use('/api/users',require('./routes/api/users'));
+app.use('/api/auth',require('./routes/api/auth'));
 
 
 const port =5000;

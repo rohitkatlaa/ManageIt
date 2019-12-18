@@ -1,5 +1,6 @@
 const express=require('express');
 const router=express.Router();
+const auth=require('../../middleware/auth');
 
 // Complain Model
 const Complain=require('../../models/Complain');
@@ -15,8 +16,8 @@ router.get('/',(req,res)=>{
 
 // @route POST api/complains
 // @desc Create a complain
-// @access Public
-router.post('/',(req,res)=>{
+// @access Private
+router.post('/',auth,(req,res)=>{
   const newComplain=new Complain({
     name: req.body.name
   });
@@ -27,8 +28,8 @@ router.post('/',(req,res)=>{
 
 // @route DELETE api/complains/:id
 // @desc Delete a complain
-// @access Public
-router.delete('/:id',(req,res)=>{
+// @access Private
+router.delete('/:id',auth,(req,res)=>{
   Complain.findById(req.params.id)
     .then(complain => 
       complain.remove().then(()=>res.json({success: true})))
