@@ -16,6 +16,9 @@ var pusher = new Pusher({
 // Complain Model
 const Complain=require('../../models/Complain');
 
+// User Model
+const User=require('../../models/User')
+
 // @route GET api/complains
 // @desc Get all complains
 // @access Public
@@ -47,16 +50,25 @@ router.post('/',auth,(req,res)=>{
 // @desc Delete a complain
 // @access Private
 router.delete('/:id',auth,(req,res)=>{
-  Complain.findById(req.params.id)
-    .then(complain => {
-      complain.remove().then(()=>{
-        pusher.trigger('ManageIt','complainUpdate',{
-          complainID: req.params.id,
-          type: "delete"
-        })
-        return res.json({success: true});
-      })})
-    .catch(err=> res.status(404).json({success: false}));
+  User.findById(req.user.id)
+    .then(user=>{
+      if(user.userType==='staff'){
+      Complain.findById(req.params.id)
+        .then(complain => {
+          complain.remove().then(()=>{
+            pusher.trigger('ManageIt','complainUpdate',{
+              complainID: req.params.id,
+              type: "delete"
+            })
+            return res.json({success: true});
+          })})
+        .catch(err=> res.status(404).json({success: false}));
+      }
+      else{
+        res.json({msg:"Not a official staff member"});
+      }
+    })
+    .catch(err=> res.status(404).json({success: false, error:err}))
 });
 
 

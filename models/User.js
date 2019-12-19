@@ -7,6 +7,11 @@ const UserSchema=new Schema({
     type:String,
     required: true
   },
+  userType:{
+    type: String,
+    required: true,
+    enum: ['student','staff']
+  },
   email:{
     type:String,
     required: true,

@@ -11,10 +11,10 @@ const User=require('../../models/User');
 // @desc Register a user
 // @access Public
 router.post('/', (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, userType } = req.body;
   
     // Simple validation
-    if(!name || !email || !password) {
+    if(!name || !email || !password || !userType) {
       return res.status(400).json({ msg: 'Please enter all fields' });
     }
   
@@ -25,6 +25,7 @@ router.post('/', (req, res) => {
   
         const newUser = new User({
           name,
+          userType,
           email,
           password
         });
@@ -47,6 +48,7 @@ router.post('/', (req, res) => {
                       user: {
                         id: user.id,
                         name: user.name,
+                        userType: user.userType,
                         email: user.email
                       }
                     });
