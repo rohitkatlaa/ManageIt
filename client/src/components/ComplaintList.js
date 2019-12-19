@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import { getItems, deleteItem } from '../actions/itemActions';
+import { getItems, deleteItem , refreshItems} from '../actions/itemActions';
 import PropTypes from 'prop-types';
+import Pusher from 'pusher-js';
 
-class ShoppingList extends Component {
+
+class ComplaintList extends Component {
   static propTypes = {
     getItems: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
@@ -20,12 +22,28 @@ class ShoppingList extends Component {
     this.props.deleteItem(id);
   };
 
+  
+
+
   render() {
+    Pusher.logToConsole = false;
+
+    var pusher = new Pusher('85de801d88609126da17', {
+      cluster: 'ap2',
+      forceTLS: true
+    });
+
+    var channel = pusher.subscribe('ManageIt');
+    channel.bind('complainUpdate', (data)=> {
+      // alert(JSON.stringify(data));
+      this.props.refreshItems(data);
+    });
+
     const { items } = this.props.item;
     return (
       <Container>
         <ListGroup>
-          <TransitionGroup className='shopping-list'>
+          <TransitionGroup className='complain-list'>
             {items.map(({ _id, name }) => (
               <CSSTransition key={_id} timeout={500} classNames='fade'>
                 <ListGroupItem>
@@ -57,5 +75,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getItems, deleteItem }
-)(ShoppingList);
+  { getItems, deleteItem, refreshItems }
+)(ComplaintList);

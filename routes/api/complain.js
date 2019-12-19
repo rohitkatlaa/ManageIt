@@ -1,6 +1,16 @@
 const express=require('express');
 const router=express.Router();
 const auth=require('../../middleware/auth');
+const config = require('config');
+const Pusher = require('pusher');
+
+var pusher = new Pusher({
+  appId: config.pusherAppId,
+  key: config.pusherKey,
+  secret: config.pusherSecret,
+  cluster: config.pusherCluster,
+  encrypted: true
+});
 
 // Complain Model
 const Complain=require('../../models/Complain');
@@ -23,7 +33,13 @@ router.post('/',auth,(req,res)=>{
   });
 
   newComplain.save()
-    .then(complain=> res.json(complain));
+    .then(complain=>{
+      pusher.trigger('ManageIt','complainUpdate',{
+        complains:  complain,
+        type: "add"
+      })
+      return res.json(complain);
+    });
 });
 
 // @route DELETE api/complains/:id
@@ -31,8 +47,14 @@ router.post('/',auth,(req,res)=>{
 // @access Private
 router.delete('/:id',auth,(req,res)=>{
   Complain.findById(req.params.id)
-    .then(complain => 
-      complain.remove().then(()=>res.json({success: true})))
+    .then(complain => {
+      complain.remove().then(()=>{
+        pusher.trigger('ManageIt','complainUpdate',{
+          complainID: req.params.id,
+          type: "delete"
+        })
+        return res.json({success: true});
+      })})
     .catch(err=> res.status(404).json({success: false}));
 });
 

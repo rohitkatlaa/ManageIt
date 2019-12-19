@@ -1,5 +1,9 @@
 {
     "mongoURI": "mongodb+srv://ManageIt:ManageIt@cluster0-yaxao.mongodb.net/test?retryWrites=true&w=majority",
-    "jwtSecret": "ManageIt_secRetkey"
+    "jwtSecret": "ManageIt_secRetkey",
+    "pusherAppId": "920657",
+    "pusherKey": "85de801d88609126da17",
+    "pusherSecret": "1c1f73a0b8c092565a74",
+    "pusherCluster": "ap2"
   }
   
