@@ -27,6 +27,7 @@ export default function(state = initialState, action) {
         items: state.items.filter(item => item._id !== action.payload.complainID)
       };
     }
+    break;
     case GET_ITEMS:
       return {
         ...state,

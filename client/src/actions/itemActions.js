@@ -19,6 +19,7 @@ export const getItems = () => dispatch => {
 };
 
 export const refreshItems = items => dispatch => {
+  console.log("called");
   dispatch({
     type: REFRESH_ITEMS,
     payload: items

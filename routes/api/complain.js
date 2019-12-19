@@ -9,7 +9,8 @@ var pusher = new Pusher({
   key: config.pusherKey,
   secret: config.pusherSecret,
   cluster: config.pusherCluster,
-  encrypted: true
+  encrypted: true,
+  disableStats: true
 });
 
 // Complain Model

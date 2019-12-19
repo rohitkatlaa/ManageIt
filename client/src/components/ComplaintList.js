@@ -16,16 +16,6 @@ class ComplaintList extends Component {
 
   componentDidMount() {
     this.props.getItems();
-  }
-
-  onDeleteClick = id => {
-    this.props.deleteItem(id);
-  };
-
-  
-
-
-  render() {
     Pusher.logToConsole = false;
 
     var pusher = new Pusher('85de801d88609126da17', {
@@ -38,7 +28,16 @@ class ComplaintList extends Component {
       // alert(JSON.stringify(data));
       this.props.refreshItems(data);
     });
+  }
 
+  onDeleteClick = id => {
+    this.props.deleteItem(id);
+  };
+
+  
+
+
+  render() {
     const { items } = this.props.item;
     return (
       <Container>
