@@ -14,7 +14,7 @@ class ComplaintList extends Component {
   render() {
     return (
       <Container>
-          { this.props.isAuthenticated ? 
+          { this.props.userType==='staff' ? 
             <OfficeComplaintList/>
             :
             <StudentComplaintList/>
@@ -25,6 +25,7 @@ class ComplaintList extends Component {
 }
 
 const mapStateToProps = state => ({
+  userType: state.auth.user ? state.auth.user.userType : "normal",
   isAuthenticated: state.auth.isAuthenticated
 });
 
