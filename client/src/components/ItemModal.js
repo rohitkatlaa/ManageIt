@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Button,
   Modal,
@@ -12,11 +12,17 @@ import {
 import { connect } from 'react-redux';
 import { addItem } from '../actions/itemActions';
 import PropTypes from 'prop-types';
+import Camera from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
+import defaultImg from './assets/default-img.jpg';
+
 
 class ItemModal extends Component {
   state = {
     modal: false,
-    name: ''
+    name: '',
+    photoTake: false,
+    imageData: defaultImg,
   };
 
   static propTypes = {
@@ -25,9 +31,27 @@ class ItemModal extends Component {
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      name: "",
+      photoTake: false,
+      imageData: defaultImg
     });
   };
+
+  takePhoto = () => {
+    this.setState({
+      modal: false,
+      photoTake: true
+    })
+  }
+
+  handleTakePhoto = dataURI => {
+    this.setState({
+      modal: true,
+      imageData: dataURI,
+      photoTake: false
+    })
+  }
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -36,9 +60,15 @@ class ItemModal extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const newItem = {
+    var newItem = {
       name: this.state.name
     };
+
+    if(this.state.imageData!==defaultImg){
+      newItem.imageData=this.state.imageData;
+      // console.log(this.state.imageData)
+      // console.log(newItem)
+    }
 
     // Add item via addItem action
     this.props.addItem(newItem);
@@ -50,6 +80,19 @@ class ItemModal extends Component {
   render() {
     return (
       <div>
+        { this.state.photoTake ? 
+          <div style={{position: "absolute", left:"0",top:"0",zIndex:2, width:"100%",height:"100%",backgroundColor:"black"}}>
+            <Camera 
+
+              isFullScreen={true}
+              onTakePhotoAnimationDone={this.handleTakePhoto}
+              // idealResolution = {{width: 400, height: 400}}
+              isMaxResolution = {false}
+            />
+          </div>
+          :
+          <Fragment/>
+        }
         {this.props.isAuthenticated ? (
           <Button
             color='dark'
@@ -72,13 +115,20 @@ class ItemModal extends Component {
                   type='text'
                   name='name'
                   id='item'
+                  value={this.state.name ? this.state.name : ""}
                   placeholder='Add a Complain'
                   onChange={this.onChange}
                 />
+                </FormGroup>
+                <FormGroup>
+                  <Button onClick={this.takePhoto}>Take photo</Button>
+                  <br/>
+                  <br/>
+                  <img src={this.state.imageData} alt="upload-image" width="250px" height="250px"/>
+                </FormGroup>
                 <Button color='dark' style={{ marginTop: '2rem' }} block>
                   Add Complain
                 </Button>
-              </FormGroup>
             </Form>
           </ModalBody>
         </Modal>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
@@ -32,11 +32,22 @@ class StudentComplaintList extends Component {
       <Container>
         <ListGroup>
           <TransitionGroup className='complain-list'>
-            {items.map(({ _id, name }) => (
-              <CSSTransition key={_id} timeout={500} classNames='fade'>
-                <ListGroupItem>
-                  {name}
-                </ListGroupItem>
+            {items.map( item => (
+              <CSSTransition key={item._id} timeout={500} classNames='fade'>
+                  <ListGroupItem>
+                    <ListGroup>
+                      <ListGroupItem style={{border: "none"}}>
+                        {item.name}
+                      </ListGroupItem>
+                      { item.imageData ? 
+                      <ListGroupItem  style={{border: "none"}}>
+                        <img src={item.imageData} alt="upload-image" width="250px" height="250px"/>
+                      </ListGroupItem>
+                      :
+                      <Fragment/>
+                      }
+                  </ListGroup>
+                  </ListGroupItem>
               </CSSTransition>
             ))}
           </TransitionGroup>

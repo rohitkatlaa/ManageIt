@@ -105,6 +105,8 @@ class RegisterModal extends Component {
                   className='mb-3'
                   onChange={this.onChange}
                 />
+              </FormGroup>
+              <FormGroup>
                 <Label for='email'>Email</Label>
                 <Input
                   type='email'
@@ -114,24 +116,28 @@ class RegisterModal extends Component {
                   className='mb-3'
                   onChange={this.onChange}
                 />
-                <Label for="usertype">Type of the User</Label>
-                <Input type="select" name="userType" onChange={this.onChange}>
-                  <option value="student">Student</option>
-                  <option value="staff">Staff</option>
-                </Input>
-                <Label for='password'>Password</Label>
-                <Input
-                  type='password'
-                  name='password'
-                  id='password'
-                  placeholder='Password'
-                  className='mb-3'
-                  onChange={this.onChange}
-                />
+              </FormGroup>
+              <FormGroup>
+                  <Label for="usertype">Type of the User</Label>
+                  <Input type="select" name="userType" onChange={this.onChange}>
+                    <option value="student">Student</option>
+                    <option value="staff">Staff</option>
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for='password'>Password</Label>
+                  <Input
+                    type='password'
+                    name='password'
+                    id='password'
+                    placeholder='Password'
+                    className='mb-3'
+                    onChange={this.onChange}
+                  />
+                </FormGroup>
                 <Button color='dark' style={{ marginTop: '2rem' }} block>
                   Register
                 </Button>
-              </FormGroup>
             </Form>
           </ModalBody>
         </Modal>

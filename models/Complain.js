@@ -10,6 +10,10 @@ const ComplainSchema=new Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  imageData: {
+    type: String,
+    required: false
   }
 });
 

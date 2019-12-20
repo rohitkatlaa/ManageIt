@@ -33,7 +33,8 @@ router.get('/',(req,res)=>{
 // @access Private
 router.post('/',auth,(req,res)=>{
   const newComplain=new Complain({
-    name: req.body.name
+    name: req.body.name,
+    imageData: req.body.imageData,
   });
 
   newComplain.save()
