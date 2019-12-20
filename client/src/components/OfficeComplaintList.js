@@ -48,6 +48,9 @@ class OfficeComplaintList extends Component {
               <CSSTransition key={item._id} timeout={500} classNames='fade'>
                 <ListGroupItem>
                   <ListGroup>
+                    <ListGroupItem style={{border: "none"}}> 
+                      CreatedBy: {item.userEmail}
+                    </ListGroupItem>
                     <ListGroupItem style={{border: "none"}}>
                       {this.props.isAuthenticated ? (
                         <Button

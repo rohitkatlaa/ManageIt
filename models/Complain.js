@@ -14,6 +14,10 @@ const ComplainSchema=new Schema({
   imageData: {
     type: String,
     required: false
+  },
+  userEmail: {
+    type: String,
+    required: true
   }
 });
 

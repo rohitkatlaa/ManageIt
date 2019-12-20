@@ -61,13 +61,12 @@ class ItemModal extends Component {
     e.preventDefault();
 
     var newItem = {
-      name: this.state.name
+      name: this.state.name,
+      userEmail: this.props.userEmail
     };
 
     if(this.state.imageData!==defaultImg){
       newItem.imageData=this.state.imageData;
-      // console.log(this.state.imageData)
-      // console.log(newItem)
     }
 
     // Add item via addItem action
@@ -139,6 +138,7 @@ class ItemModal extends Component {
 
 const mapStateToProps = state => ({
   item: state.item,
+  userEmail: state.auth.user ?  state.auth.user.email : null,
   isAuthenticated: state.auth.isAuthenticated
 });
 

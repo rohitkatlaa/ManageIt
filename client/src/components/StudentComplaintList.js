@@ -37,6 +37,19 @@ class StudentComplaintList extends Component {
                   <ListGroupItem>
                     <ListGroup>
                       <ListGroupItem style={{border: "none"}}>
+                        CreatedBy: {item.userEmail}
+                      </ListGroupItem>
+                      <ListGroupItem style={{border: "none"}}>
+                      {this.props.userEmail===item.userEmail ? (
+                        <Button
+                          className='remove-btn'
+                          color='danger'
+                          size='sm'
+                          onClick={this.onDeleteClick.bind(this, item._id)}
+                        >
+                          &times;
+                        </Button>
+                      ) : null}
                         {item.name}
                       </ListGroupItem>
                       { item.imageData ? 
@@ -59,6 +72,7 @@ class StudentComplaintList extends Component {
 
 const mapStateToProps = state => ({
   item: state.item,
+  userEmail: state.auth.user ?  state.auth.user.email : null,
   isAuthenticated: state.auth.isAuthenticated
 });
 

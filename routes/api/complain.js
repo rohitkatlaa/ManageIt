@@ -35,6 +35,7 @@ router.post('/',auth,(req,res)=>{
   const newComplain=new Complain({
     name: req.body.name,
     imageData: req.body.imageData,
+    userEmail: req.body.userEmail
   });
 
   newComplain.save()
@@ -53,21 +54,22 @@ router.post('/',auth,(req,res)=>{
 router.delete('/:id',auth,(req,res)=>{
   User.findById(req.user.id)
     .then(user=>{
-      if(user.userType==='staff'){
       Complain.findById(req.params.id)
         .then(complain => {
-          complain.remove().then(()=>{
+          if(user.userType==='staff' || user.email===complain.userEmail){
+            complain.remove().then(()=>{
             pusher.trigger('ManageIt','complainUpdate',{
               complainID: req.params.id,
               type: "delete"
             })
             return res.json({success: true});
-          })})
-        .catch(err=> res.status(404).json({success: false}));
-      }
-      else{
-        res.json({msg:"Not a official staff member"});
-      }
+          })}
+          else{
+            res.json({msg:"Not a official staff member"});
+          }
+        }
+      )
+      .catch(err=> res.status(404).json({success: false}));
     })
     .catch(err=> res.status(404).json({success: false, error:err}))
 });
