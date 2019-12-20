@@ -1,9 +1,7 @@
 # ManageIt
 This is a hostel complain portal.
 
-run ```npm install``` to install the dependencies.
-
-run ```npm run server``` to run the project.
+run ```npm install``` and ```npm run client-install ``` to install the dependencies.
 
 Before running the project just create a folder called config and create default.json file in it. 
 
