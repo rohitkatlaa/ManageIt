@@ -19,11 +19,26 @@ export const getItems = () => dispatch => {
 };
 
 export const refreshItems = items => dispatch => {
-  console.log("called");
-  dispatch({
-    type: REFRESH_ITEMS,
-    payload: items
-  })
+  // console.log(items)
+  if(items.type==='add'){
+    axios
+      .get(`/api/complains/${items.complainId}`)
+      .then(res=>{
+        const payload={
+          data: res.data,
+          type: "add"
+        }
+        dispatch({
+          type: REFRESH_ITEMS,
+          payload: payload
+        })})
+  }
+  else{
+    dispatch({
+      type: REFRESH_ITEMS,
+      payload: items
+    })
+  }
 };
 
 export const addItem = item => (dispatch, getState) => {

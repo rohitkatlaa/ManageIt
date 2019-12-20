@@ -18,7 +18,7 @@ export default function(state = initialState, action) {
       if(action.payload.type==="add"){
         return {
           ...state,
-          items: [action.payload.complains, ...state.items]
+          items: [action.payload.data, ...state.items]
         };
       }
       else if(action.payload.type==="delete"){

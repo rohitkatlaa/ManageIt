@@ -28,6 +28,15 @@ router.get('/',(req,res)=>{
     .then(complains=> res.json(complains))
 });
 
+// @route GET api/complains/:id
+// @desc Get a particular complaint
+// @access Public
+router.get('/:id',(req,res)=>{
+  Complain.findById(req.params.id)
+    .then(complain=> res.json(complain))
+});
+
+
 // @route POST api/complains
 // @desc Create a complain
 // @access Private
@@ -41,7 +50,7 @@ router.post('/',auth,(req,res)=>{
   newComplain.save()
     .then(complain=>{
       pusher.trigger('ManageIt','complainUpdate',{
-        complains:  complain,
+        complainId:  complain._id,
         type: "add"
       })
       return res.json(complain);
