@@ -22,7 +22,25 @@ class StudentComplaintList extends Component {
   };
 
   
-
+  displayDate(date){
+    var a=new Date(date);
+    var b=new Date();
+    const diffTime = Math.abs(b-a);
+    const diffSecs = Math.floor(diffTime / (1000));
+    const diffMins = Math.floor(diffTime / (1000 * 60));
+    const diffHrs = Math.floor(diffTime / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    if(diffDays===0){
+      if(diffHrs===0){
+        if(diffMins===0){
+          return diffSecs.toString()+" Seconds before";
+        }
+        return diffMins.toString()+" Minutes before";
+      }
+      return diffHrs.toString()+" Hours before";
+    }
+    return diffDays.toString()+" Days before"
+  }
 
   render() {
     const { items } = this.props.item;
@@ -80,6 +98,9 @@ class StudentComplaintList extends Component {
                       }
                       <ListGroupItem style={{border: "none"}}>
                         CreatedBy: {item.userEmail}
+                      </ListGroupItem>
+                      <ListGroupItem style={{border: "none"}}>
+                        Created: { this.displayDate(item.date) }
                       </ListGroupItem>
                   </ListGroup>
                   </ListGroupItem>

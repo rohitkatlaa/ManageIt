@@ -35,8 +35,25 @@ class OfficeComplaintList extends Component {
     this.props.deleteItem(id);
   };
 
-  
-
+  displayDate(date){
+    var a=new Date(date);
+    var b=new Date();
+    const diffTime = Math.abs(b-a);
+    const diffSecs = Math.floor(diffTime / (1000));
+    const diffMins = Math.floor(diffTime / (1000 * 60));
+    const diffHrs = Math.floor(diffTime / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    if(diffDays===0){
+      if(diffHrs===0){
+        if(diffMins===0){
+          return diffSecs.toString()+" Seconds before";
+        }
+        return diffMins.toString()+" Minutes before";
+      }
+      return diffHrs.toString()+" Hours before";
+    }
+    return diffDays.toString()+" Days before"
+  }  
 
   render() {
     const { items } = this.props.item;
@@ -47,31 +64,6 @@ class OfficeComplaintList extends Component {
             {items.map(item => (
               <CSSTransition key={item._id} timeout={500} classNames='fade'>
                 <ListGroupItem>
-                  {/* <ListGroup>
-                    <ListGroupItem style={{border: "none"}}> 
-                      CreatedBy: {item.userEmail}
-                    </ListGroupItem>
-                    <ListGroupItem style={{border: "none"}}>
-                      {this.props.isAuthenticated ? (
-                        <Button
-                          className='remove-btn'
-                          color='danger'
-                          size='sm'
-                          onClick={this.onDeleteClick.bind(this, item._id)}
-                        >
-                          &times;
-                        </Button>
-                      ) : null}
-                      {item.name}
-                    </ListGroupItem>
-                      { item.imageData ?
-                        <ListGroupItem  style={{border: "none"}}>
-                          <img src={item.imageData} alt="upload-image" width="250px" height="250px"/>
-                        </ListGroupItem>
-                        :
-                        <Fragment/>
-                      }
-                  </ListGroup> */}
                   <ListGroup>
                       <ListGroupItem style={{border: "none"}}>
                       {this.props.isAuthenticated ? (
@@ -116,6 +108,9 @@ class OfficeComplaintList extends Component {
                       }
                       <ListGroupItem style={{border: "none"}}>
                         CreatedBy: {item.userEmail}
+                      </ListGroupItem>
+                      <ListGroupItem style={{border: "none"}}>
+                        Created: { this.displayDate(item.date) }
                       </ListGroupItem>
                   </ListGroup>
                 </ListGroupItem>
