@@ -47,7 +47,7 @@ class OfficeComplaintList extends Component {
             {items.map(item => (
               <CSSTransition key={item._id} timeout={500} classNames='fade'>
                 <ListGroupItem>
-                  <ListGroup>
+                  {/* <ListGroup>
                     <ListGroupItem style={{border: "none"}}> 
                       CreatedBy: {item.userEmail}
                     </ListGroupItem>
@@ -71,6 +71,52 @@ class OfficeComplaintList extends Component {
                         :
                         <Fragment/>
                       }
+                  </ListGroup> */}
+                  <ListGroup>
+                      <ListGroupItem style={{border: "none"}}>
+                      {this.props.isAuthenticated ? (
+                        <Button
+                          className='remove-btn float-right'
+                          color='danger'
+                          size='sm'
+                          onClick={this.onDeleteClick.bind(this, item._id)}
+                        >
+                          Delete
+                        </Button>
+                      ) : null}
+                        Category: {item.PrimaryCategory}
+                      </ListGroupItem>
+                      { item.subCategory!=="none" ?
+                        <ListGroupItem style={{border: "none"}}>
+                          SubCategory: {item.subCategory}
+                        </ListGroupItem>
+                        :
+                        <Fragment/>
+                      }
+                      { item.roomNum!=="000" ?
+                        <ListGroupItem style={{border: "none"}}>
+                          RoomNumber: {item.roomNum}
+                        </ListGroupItem>
+                        :
+                        <Fragment/>
+                      }
+                      { item.complainDesc ?
+                        <ListGroupItem style={{border: "none"}}>
+                          Complain Description: {item.complainDesc}
+                        </ListGroupItem>
+                        :
+                        <Fragment/>
+                      }
+                      { item.imageData ? 
+                      <ListGroupItem  style={{border: "none"}}>
+                        <img src={item.imageData} alt="upload-image" width="250px" height="250px"/>
+                      </ListGroupItem>
+                      :
+                      <Fragment/>
+                      }
+                      <ListGroupItem style={{border: "none"}}>
+                        CreatedBy: {item.userEmail}
+                      </ListGroupItem>
                   </ListGroup>
                 </ListGroupItem>
               </CSSTransition>

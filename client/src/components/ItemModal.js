@@ -20,7 +20,10 @@ import defaultImg from './assets/default-img.jpg';
 class ItemModal extends Component {
   state = {
     modal: false,
-    name: '',
+    PrimaryCategory: "Other",
+    subCategory: "",
+    roomNum: "",
+    complainDesc: "",
     photoTake: false,
     imageData: defaultImg,
   };
@@ -32,7 +35,8 @@ class ItemModal extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
-      name: "",
+      PrimaryCategory: "Other",
+      complainDesc: "",
       photoTake: false,
       imageData: defaultImg
     });
@@ -61,12 +65,36 @@ class ItemModal extends Component {
     e.preventDefault();
 
     var newItem = {
-      name: this.state.name,
-      userEmail: this.props.userEmail
+      userEmail: this.props.userEmail,
+      PrimaryCategory: this.state.PrimaryCategory
     };
 
     if(this.state.imageData!==defaultImg){
       newItem.imageData=this.state.imageData;
+    }
+
+    if(this.state.PrimaryCategory!=='Other'){
+      if(this.state.subCategory===""){
+        newItem.subCategory="Other"
+      }
+      else{
+        newItem.subCategory=this.state.subCategory;
+      }
+      if(this.state.roomNum!==""){
+        console.log("hi")
+        newItem.roomNum=this.state.roomNum;
+      }
+      else{
+        newItem.roomNum="000";
+      }
+    }
+    else{
+      newItem.roomNum="000";
+      newItem.subCategory="none";
+    }
+
+    if(this.state.complainDesc!==""){
+      newItem.complainDesc=this.state.complainDesc;
     }
 
     // Add item via addItem action
@@ -75,6 +103,98 @@ class ItemModal extends Component {
     // Close modal
     this.toggle();
   };
+
+  renderPrimarySwitch() {
+    switch(this.state.PrimaryCategory) {
+      case 'Other': 
+        return <Fragment>
+              </Fragment>
+      case 'Room': 
+      return <Fragment>
+              <FormGroup>
+                <Label for="subCategory">Sub Category</Label>
+                <Input type="select" name="SubCategory" onChange={this.onChange}>
+                  <option>Other</option>
+                  <option>Room Cleaning</option>
+                  <option>Electrical Appliance</option>
+                </Input>
+              </FormGroup>
+              <FormGroup>
+              <Label for='RoomNum'>Room Number</Label><span style={{color: "red"}}>*</span>
+              <Input
+                type='text'
+                name='roomNum'
+                value={this.state.roomNum ? this.state.roomNum : ""}
+                placeholder='Enter the room number'
+                onChange={this.onChange}
+              />
+              </FormGroup>
+            </Fragment>
+    case 'Washroom': 
+    return <Fragment>
+            <FormGroup>
+              <Label for="subCategory">Sub Category</Label>
+              <Input type="select" name="SubCategory" onChange={this.onChange}>
+                <option>Other</option>
+                <option>Hotwater</option>
+                <option>No water</option>
+                <option>Bathroom cleaning</option>
+                <option>Broken faucet</option>
+              </Input>
+            </FormGroup>
+            <FormGroup>
+            <Label for='RoomNum'>Room Number adjacent to the Bathroom</Label><span style={{color: "red"}}>*</span>
+            <Input
+              type='text'
+              name='roomNum'
+              value={this.state.roomNum ? this.state.roomNum : ""}
+              placeholder='Enter the room number'
+              onChange={this.onChange}
+            />
+            </FormGroup>
+          </Fragment>
+    case 'Corridor Problems': 
+    this.setState({
+      subCategory: "Other"
+    })
+    return <Fragment>
+            <FormGroup>
+              <Label for="subCategory">Sub Category</Label>
+              <Input type="select" name="SubCategory" onChange={this.onChange}>
+                <option>Other</option>
+                <option>Dustbins</option>
+                <option>Corridor Cleaning</option>
+                <option>Drinking Water</option>
+              </Input>
+            </FormGroup>
+            <FormGroup>
+            <Label for='RoomNum'>Room Number adjacent to the Problem</Label><span style={{color: "red"}}>*</span>
+            <Input
+              type='text'
+              name='roomNum'
+              value={this.state.roomNum ? this.state.roomNum : ""}
+              placeholder='Enter the room number'
+              onChange={this.onChange}
+            />
+            </FormGroup>
+          </Fragment>
+    case 'MPH': 
+    this.setState({
+      subCategory: "Other"
+    })
+    return <Fragment>
+            <FormGroup>
+              <Label for="subCategory">Sub Category</Label>
+              <Input type="select" name="SubCategory" onChange={this.onChange}>
+                <option>Other</option>
+                <option>Gym</option>
+              </Input>
+            </FormGroup>
+          </Fragment>
+    default:
+      return <Fragment/>
+    }
+  }
 
   render() {
     return (
@@ -109,25 +229,34 @@ class ItemModal extends Component {
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for='item'>Complain</Label>
-                <Input
-                  type='text'
-                  name='name'
-                  id='item'
-                  value={this.state.name ? this.state.name : ""}
-                  placeholder='Add a Complain'
+                <Label for="itemCategory">Category</Label>
+                <Input type="select" name="PrimaryCategory" onChange={this.onChange}>
+                  <option>Other</option>
+                  <option>Room</option>
+                  <option>Washroom</option>
+                  <option>Corridor amenities</option>
+                  <option>MPH</option>
+                </Input>
+              </FormGroup>
+              { this.renderPrimarySwitch() }
+              <FormGroup>
+                <Label for="itemDesc">Optional Description</Label>
+                <Input 
+                  type="textarea"
+                  name="complainDesc" 
                   onChange={this.onChange}
-                />
-                </FormGroup>
-                <FormGroup>
-                  <Button onClick={this.takePhoto}>Take photo</Button>
-                  <br/>
-                  <br/>
-                  <img src={this.state.imageData} alt="upload-image" width="250px" height="250px"/>
-                </FormGroup>
-                <Button color='dark' style={{ marginTop: '2rem' }} block>
-                  Add Complain
-                </Button>
+                  placeholder="Enter a short Description"
+                  />
+              </FormGroup>
+              <FormGroup>
+                <Button onClick={this.takePhoto}>Take photo</Button>
+                <br/>
+                <br/>
+                <img src={this.state.imageData} alt="upload-image" width="250px" height="250px"/>
+              </FormGroup>
+              <Button color='dark' style={{ marginTop: '2rem' }} block>
+                Add Complain
+              </Button>
             </Form>
           </ModalBody>
         </Modal>

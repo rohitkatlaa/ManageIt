@@ -42,9 +42,12 @@ router.get('/:id',(req,res)=>{
 // @access Private
 router.post('/',auth,(req,res)=>{
   const newComplain=new Complain({
-    name: req.body.name,
     imageData: req.body.imageData,
-    userEmail: req.body.userEmail
+    userEmail: req.body.userEmail,
+    PrimaryCategory: req.body.PrimaryCategory,
+    subCategory: req.body.subCategory,
+    roomNum: req.body.roomNum,
+    complainDesc: req.body.complainDesc,
   });
 
   newComplain.save()

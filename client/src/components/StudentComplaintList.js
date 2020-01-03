@@ -4,8 +4,6 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getItems, deleteItem , refreshItems} from '../actions/itemActions';
 import PropTypes from 'prop-types';
-import Pusher from 'pusher-js';
-import config from '../config/key'
 
 
 class StudentComplaintList extends Component {
@@ -37,21 +35,42 @@ class StudentComplaintList extends Component {
                   <ListGroupItem>
                     <ListGroup>
                       <ListGroupItem style={{border: "none"}}>
-                        CreatedBy: {item.userEmail}
-                      </ListGroupItem>
-                      <ListGroupItem style={{border: "none"}}>
-                      {this.props.userEmail===item.userEmail ? (
+                      {
+                        this.props.userEmail===item.userEmail ? (
                         <Button
-                          className='remove-btn'
-                          color='danger'
-                          size='sm'
-                          onClick={this.onDeleteClick.bind(this, item._id)}
-                        >
-                          &times;
-                        </Button>
-                      ) : null}
-                        {item.name}
+                              className='remove-btn float-right'
+                              color='danger'
+                              size='sm'
+                              onClick={this.onDeleteClick.bind(this, item._id)}
+                            >
+                              Delete
+                        </Button>)
+                        :
+                        null
+                      }
+                        Category: {item.PrimaryCategory}
                       </ListGroupItem>
+                      { item.subCategory!=="none" ?
+                        <ListGroupItem style={{border: "none"}}>
+                          SubCategory: {item.subCategory}
+                        </ListGroupItem>
+                        :
+                        <Fragment/>
+                      }
+                      { item.roomNum!=="000" ?
+                        <ListGroupItem style={{border: "none"}}>
+                          RoomNumber: {item.roomNum}
+                        </ListGroupItem>
+                        :
+                        <Fragment/>
+                      }
+                      { item.complainDesc ?
+                        <ListGroupItem style={{border: "none"}}>
+                          Complain Description: {item.complainDesc}
+                        </ListGroupItem>
+                        :
+                        <Fragment/>
+                      }
                       { item.imageData ? 
                       <ListGroupItem  style={{border: "none"}}>
                         <img src={item.imageData} alt="upload-image" width="250px" height="250px"/>
@@ -59,6 +78,9 @@ class StudentComplaintList extends Component {
                       :
                       <Fragment/>
                       }
+                      <ListGroupItem style={{border: "none"}}>
+                        CreatedBy: {item.userEmail}
+                      </ListGroupItem>
                   </ListGroup>
                   </ListGroupItem>
               </CSSTransition>
