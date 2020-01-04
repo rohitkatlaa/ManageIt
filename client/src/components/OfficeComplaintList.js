@@ -57,11 +57,33 @@ class OfficeComplaintList extends Component {
 
   render() {
     const { items } = this.props.item;
+    const unfiltereditems=items;
+    const { filterPrimaryCategory } = this.props.item;
+    const { filterSubCategory } = this.props.item;
+    var finalItems=[];
+    if(filterPrimaryCategory!=="All" && unfiltereditems){
+      var x;
+      for(x in unfiltereditems){
+        if(filterSubCategory!=="All"){
+          if(unfiltereditems[x].PrimaryCategory===filterPrimaryCategory && unfiltereditems[x].subCategory===filterSubCategory){
+            finalItems.push(unfiltereditems[x])
+          }
+        }
+        else{
+          if(unfiltereditems[x].PrimaryCategory===filterPrimaryCategory){
+            finalItems.push(unfiltereditems[x])
+          }
+        }
+      }
+    }
+    else{
+      finalItems=unfiltereditems;
+    }
     return (
       <Container>
         <ListGroup>
           <TransitionGroup className='complain-list'>
-            {items.map(item => (
+            {finalItems && finalItems.map( item => (
               <CSSTransition key={item._id} timeout={500} classNames='fade'>
                 <ListGroupItem>
                   <ListGroup>

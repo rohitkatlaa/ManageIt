@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Container } from 'reactstrap';
+import React, { Component, Fragment } from 'react';
+import { Container,Badge } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import StudentComplaintList from './StudentComplaintList';
@@ -12,8 +12,22 @@ class ComplaintList extends Component {
   };
 
   render() {
+    const { filterPrimaryCategory } = this.props.item;
+    const { filterSubCategory } = this.props.item;
     return (
       <Container>
+          { filterPrimaryCategory!=="All" ? 
+            <div>
+              <h5 style={{display:"inline"}}>FilterParameters:</h5> &nbsp;
+              <Badge color="primary" pill>
+                {filterPrimaryCategory}
+              </Badge>
+              &nbsp;
+              { filterSubCategory!=="All" ? <Badge color="primary" pill>{filterSubCategory}</Badge>: <Fragment/>}
+              <br/>
+              <br/>
+            </div>
+            : <Fragment/>}
           { this.props.userType==='staff' ? 
             <OfficeComplaintList/>
             :
@@ -25,6 +39,7 @@ class ComplaintList extends Component {
 }
 
 const mapStateToProps = state => ({
+  item: state.item,
   userType: state.auth.user ? state.auth.user.userType : "normal",
   isAuthenticated: state.auth.isAuthenticated
 });

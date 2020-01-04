@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING, REFRESH_ITEMS } from './types';
+import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING, REFRESH_ITEMS, FILTERITEMS } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
@@ -17,6 +17,13 @@ export const getItems = () => dispatch => {
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
+
+export const filterItems = filterParams => dispatch => {
+  dispatch({
+    type: FILTERITEMS,
+    payload: filterParams
+  })
+}
 
 export const refreshItems = items => dispatch => {
   // console.log(items)

@@ -3,16 +3,25 @@ import {
   REFRESH_ITEMS,
   ADD_ITEM,
   DELETE_ITEM,
-  ITEMS_LOADING
+  ITEMS_LOADING,
+  FILTERITEMS
 } from '../actions/types';
 
 const initialState = {
   items: [],
-  loading: false
+  loading: false,
+  filterPrimaryCategory: "All",
+  filterSubCategory: "All",
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case FILTERITEMS:
+      return {
+        ...state,
+        filterPrimaryCategory: action.payload.PrimaryCategory,
+        filterSubCategory: action.payload.subCategory
+      }
     case REFRESH_ITEMS:
       console.log(action.payload)
       if(action.payload.type==="add"){

@@ -113,7 +113,7 @@ class ItemModal extends Component {
       return <Fragment>
               <FormGroup>
                 <Label for="subCategory">Sub Category</Label>
-                <Input type="select" name="SubCategory" onChange={this.onChange}>
+                <Input type="select" name="subCategory" onChange={this.onChange}>
                   <option>Other</option>
                   <option>Room Cleaning</option>
                   <option>Electrical Appliance</option>
@@ -134,7 +134,7 @@ class ItemModal extends Component {
     return <Fragment>
             <FormGroup>
               <Label for="subCategory">Sub Category</Label>
-              <Input type="select" name="SubCategory" onChange={this.onChange}>
+              <Input type="select" name="subCategory" onChange={this.onChange}>
                 <option>Other</option>
                 <option>Hotwater</option>
                 <option>No water</option>
@@ -153,14 +153,11 @@ class ItemModal extends Component {
             />
             </FormGroup>
           </Fragment>
-    case 'Corridor Problems': 
-    this.setState({
-      subCategory: "Other"
-    })
+    case 'Corridor amenities': 
     return <Fragment>
             <FormGroup>
               <Label for="subCategory">Sub Category</Label>
-              <Input type="select" name="SubCategory" onChange={this.onChange}>
+              <Input type="select" name="subCategory" onChange={this.onChange}>
                 <option>Other</option>
                 <option>Dustbins</option>
                 <option>Corridor Cleaning</option>
@@ -179,13 +176,10 @@ class ItemModal extends Component {
             </FormGroup>
           </Fragment>
     case 'MPH': 
-    this.setState({
-      subCategory: "Other"
-    })
     return <Fragment>
             <FormGroup>
               <Label for="subCategory">Sub Category</Label>
-              <Input type="select" name="SubCategory" onChange={this.onChange}>
+              <Input type="select" name="subCategory" onChange={this.onChange}>
                 <option>Other</option>
                 <option>Gym</option>
               </Input>

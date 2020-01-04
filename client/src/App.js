@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AppNavbar from './components/AppNavbar';
 import ComplaintList from './components/ComplaintList';
 import ItemModal from './components/ItemModal';
+import FilterModal from './components/FilterModal';
 import { Container } from 'reactstrap';
 
 import { Provider } from 'react-redux';
@@ -23,6 +24,7 @@ class App extends Component {
           <AppNavbar />
           <Container>
             <ItemModal />
+            <FilterModal/>
             <ComplaintList/>
           </Container>
         </div>
