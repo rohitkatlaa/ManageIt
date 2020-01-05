@@ -13,6 +13,7 @@ const initialState = {
   loading: false,
   filterPrimaryCategory: "All",
   filterSubCategory: "All",
+  filterStatus: "All"
 };
 
 export default function(state = initialState, action) {
@@ -27,7 +28,8 @@ export default function(state = initialState, action) {
       return {
         ...state,
         filterPrimaryCategory: action.payload.PrimaryCategory,
-        filterSubCategory: action.payload.subCategory
+        filterSubCategory: action.payload.subCategory,
+        filterStatus: action.payload.status
       }
     case REFRESH_ITEMS:
       if(action.payload.type==="add"){

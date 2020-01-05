@@ -14,16 +14,31 @@ class ComplaintList extends Component {
   render() {
     const { filterPrimaryCategory } = this.props.item;
     const { filterSubCategory } = this.props.item;
+    const { filterStatus } = this.props.item
     return (
       <Container>
-          { filterPrimaryCategory!=="All" ? 
+          { filterPrimaryCategory!=="All" ||  filterStatus!=="All" ? 
             <div>
               <h5 style={{display:"inline"}}>FilterParameters:</h5> &nbsp;
-              <Badge color="primary" pill>
-                {filterPrimaryCategory}
-              </Badge>
-              &nbsp;
-              { filterSubCategory!=="All" ? <Badge color="primary" pill>{filterSubCategory}</Badge>: <Fragment/>}
+              { filterStatus!=="All" ?
+                <Fragment>
+                  <Badge color="primary" pill>
+                    {filterStatus}
+                  </Badge>
+                  &nbsp;
+                </Fragment>
+                : null
+              }
+              { filterPrimaryCategory!=="All" ?
+                <Fragment>
+                  <Badge color="primary" pill>
+                    {filterPrimaryCategory}
+                  </Badge>
+                  &nbsp;
+                  { filterSubCategory!=="All" ? <Badge color="primary" pill>{filterSubCategory}</Badge>: <Fragment/>}
+                </Fragment>
+              : null
+              }
               <br/>
               <br/>
             </div>

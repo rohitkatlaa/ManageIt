@@ -47,24 +47,37 @@ class StudentComplaintList extends Component {
     const unfiltereditems=items;
     const { filterPrimaryCategory } = this.props.item;
     const { filterSubCategory } = this.props.item;
+    const { filterStatus } = this.props.item;
     var finalItems=[];
-    if(filterPrimaryCategory!=="All" && unfiltereditems){
+    var unfiltereditems2=[];
+    if(filterStatus!=="All" && unfiltereditems){
       var x;
       for(x in unfiltereditems){
+        if(unfiltereditems[x].status===filterStatus){
+          unfiltereditems2.push(unfiltereditems[x])
+        }
+      }
+    }
+    else{
+      unfiltereditems2=unfiltereditems;
+    }
+    if(filterPrimaryCategory!=="All" && unfiltereditems2){
+      var x;
+      for(x in unfiltereditems2){
         if(filterSubCategory!=="All"){
-          if(unfiltereditems[x].PrimaryCategory===filterPrimaryCategory && unfiltereditems[x].subCategory===filterSubCategory){
-            finalItems.push(unfiltereditems[x])
+          if(unfiltereditems2[x].PrimaryCategory===filterPrimaryCategory && unfiltereditems2[x].subCategory===filterSubCategory){
+            finalItems.push(unfiltereditems2[x])
           }
         }
         else{
-          if(unfiltereditems[x].PrimaryCategory===filterPrimaryCategory){
-            finalItems.push(unfiltereditems[x])
+          if(unfiltereditems2[x].PrimaryCategory===filterPrimaryCategory){
+            finalItems.push(unfiltereditems2[x])
           }
         }
       }
     }
     else{
-      finalItems=unfiltereditems;
+      finalItems=unfiltereditems2;
     }
     return (
       <Container>

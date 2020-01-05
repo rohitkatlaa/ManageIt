@@ -11,20 +11,18 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { filterItems } from '../actions/itemActions';
-// import PropTypes from 'prop-types';
 
 class FilterModal extends Component {
   state = {
     modal: false,
     PrimaryCategory: "All",
     subCategory: "All",
+    status: "All"
   };
 
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
-      // PrimaryCategory: "All",
-      // subCategory: "All"
   });
   };
 
@@ -37,7 +35,8 @@ class FilterModal extends Component {
 
     var filter={
       PrimaryCategory: this.state.PrimaryCategory,
-      subCategory: this.state.subCategory
+      subCategory: this.state.subCategory,
+      status: this.state.status
     }
 
     this.props.filterItems(filter)
@@ -131,6 +130,15 @@ class FilterModal extends Component {
                     <option>Washroom</option>
                     <option>Corridor amenities</option>
                     <option>MPH</option>
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="itemCategory">Status</Label>
+                  <Input type="select" name="status" onChange={this.onChange} value={this.state.status}>
+                    <option>All</option>
+                    <option>pending</option>
+                    <option>inProgress</option>
+                    <option>completed</option>
                   </Input>
                 </FormGroup>
                 { this.renderPrimarySwitch() }
