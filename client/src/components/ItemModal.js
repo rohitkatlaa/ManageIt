@@ -66,7 +66,8 @@ class ItemModal extends Component {
 
     var newItem = {
       userEmail: this.props.userEmail,
-      PrimaryCategory: this.state.PrimaryCategory
+      PrimaryCategory: this.state.PrimaryCategory,
+      status: "pending"
     };
 
     if(this.state.imageData!==defaultImg){

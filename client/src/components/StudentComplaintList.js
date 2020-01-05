@@ -124,6 +124,9 @@ class StudentComplaintList extends Component {
                       <ListGroupItem style={{border: "none"}}>
                         Created: { this.displayDate(item.date) }
                       </ListGroupItem>
+                      <ListGroupItem style={{border: "none"}}>
+                        Status: {item.status}
+                      </ListGroupItem>
                   </ListGroup>
                   </ListGroupItem>
               </CSSTransition>

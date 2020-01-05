@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import { getItems, deleteItem , refreshItems} from '../actions/itemActions';
+import { getItems, deleteItem , refreshItems, statusChange} from '../actions/itemActions';
 import PropTypes from 'prop-types';
 import Pusher from 'pusher-js';
 import config from '../config/key'
@@ -12,7 +12,6 @@ class OfficeComplaintList extends Component {
   static propTypes = {
     getItems: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
-    isAuthenticated: PropTypes.bool
   };
 
   componentDidMount() {
@@ -55,6 +54,14 @@ class OfficeComplaintList extends Component {
     return diffDays.toString()+" Days before"
   }  
 
+
+  onStatusChangeClick(status,id){
+    const data={
+      status: status
+    }
+    this.props.statusChange(data,id);
+  }
+
   render() {
     const { items } = this.props.item;
     const unfiltereditems=items;
@@ -88,7 +95,6 @@ class OfficeComplaintList extends Component {
                 <ListGroupItem>
                   <ListGroup>
                       <ListGroupItem style={{border: "none"}}>
-                      {this.props.isAuthenticated ? (
                         <Button
                           className='remove-btn float-right'
                           color='danger'
@@ -97,7 +103,26 @@ class OfficeComplaintList extends Component {
                         >
                           Delete
                         </Button>
-                      ) : null}
+                        { item.status==="pending" &&
+                        <Button
+                          className='remove-btn float-right'
+                          color='primary'
+                          size='sm'
+                          onClick={this.onStatusChangeClick.bind(this,"inProgress",item._id)}
+                        >
+                          Change status to In Progress
+                        </Button>
+                        }
+                        { item.status==="inProgress" &&
+                        <Button
+                          className='remove-btn float-right'
+                          color='primary'
+                          size='sm'
+                          onClick={this.onStatusChangeClick.bind(this,"completed",item._id)}
+                        >
+                          Change status to Completed
+                        </Button>
+                        }
                         Category: {item.PrimaryCategory}
                       </ListGroupItem>
                       { item.subCategory!=="none" ?
@@ -134,6 +159,9 @@ class OfficeComplaintList extends Component {
                       <ListGroupItem style={{border: "none"}}>
                         Created: { this.displayDate(item.date) }
                       </ListGroupItem>
+                      <ListGroupItem style={{border: "none"}}>
+                        Status: {item.status}
+                      </ListGroupItem>
                   </ListGroup>
                 </ListGroupItem>
               </CSSTransition>
@@ -147,10 +175,9 @@ class OfficeComplaintList extends Component {
 
 const mapStateToProps = state => ({
   item: state.item,
-  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(
   mapStateToProps,
-  { getItems, deleteItem, refreshItems }
+  { getItems, deleteItem, refreshItems, statusChange }
 )(OfficeComplaintList);

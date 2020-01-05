@@ -4,7 +4,8 @@ import {
   ADD_ITEM,
   DELETE_ITEM,
   ITEMS_LOADING,
-  FILTERITEMS
+  FILTERITEMS,
+  CHANGESTATUS
 } from '../actions/types';
 
 const initialState = {
@@ -16,6 +17,12 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case CHANGESTATUS:
+      console.log(action.payload)
+      return {
+        ...state,
+        items: [action.payload, ...state.items.filter(item => item._id !== action.payload._id)]
+      }
     case FILTERITEMS:
       return {
         ...state,
@@ -23,7 +30,6 @@ export default function(state = initialState, action) {
         filterSubCategory: action.payload.subCategory
       }
     case REFRESH_ITEMS:
-      console.log(action.payload)
       if(action.payload.type==="add"){
         return {
           ...state,
@@ -31,11 +37,17 @@ export default function(state = initialState, action) {
         };
       }
       else if(action.payload.type==="delete"){
-      return {
-        ...state,
-        items: state.items.filter(item => item._id !== action.payload.complainID)
-      };
-    }
+        return {
+          ...state,
+          items: state.items.filter(item => item._id !== action.payload.complainID)
+        };
+      }
+      else if(action.payload.type==="edit"){
+        return {
+          ...state,
+          items: [action.payload.complain, ...state.items.filter(item => item._id !== action.payload.complain._id)]
+        };
+      }
     break;
     case GET_ITEMS:
       return {

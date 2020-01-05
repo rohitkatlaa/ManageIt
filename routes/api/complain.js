@@ -48,6 +48,7 @@ router.post('/',auth,(req,res)=>{
     subCategory: req.body.subCategory,
     roomNum: req.body.roomNum,
     complainDesc: req.body.complainDesc,
+    status: req.body.status
   });
 
   newComplain.save()
@@ -59,6 +60,23 @@ router.post('/',auth,(req,res)=>{
       return res.json(complain);
     });
 });
+
+// @route POST api/complains/status/:id
+// @desc Change status of a complain
+// @access Private
+router.post('/status/:id',auth,(req,res)=>{
+  const filter = { _id: req.params.id };
+  const update = { status: req.body.status };
+  Complain.findOneAndUpdate(filter,update,{new: true})
+    .then(complain=> {
+      pusher.trigger('ManageIt','complainUpdate',{
+        complain:  complain,
+        type: "edit"
+      }) 
+      return res.json(complain)
+    })
+});
+
 
 // @route DELETE api/complains/:id
 // @desc Delete a complain

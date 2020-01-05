@@ -29,6 +29,10 @@ const ComplainSchema=new Schema({
   userEmail: {
     type: String,
     required: true
+  },
+  status: {
+    type: String,
+    required: true
   }
 });
 
