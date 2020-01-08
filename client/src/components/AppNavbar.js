@@ -39,9 +39,13 @@ class AppNavbar extends Component {
             <strong>{user ? `Welcome ${user.name}` : ''}</strong>
           </span>
         </NavItem>
-        <NavItem>
-          <RegisterModal />
-        </NavItem>
+        { this.props.userType==="staff" ?
+          <NavItem>
+            <RegisterModal />
+          </NavItem>
+          :
+          <Fragment/>
+        }
         <NavItem>
           <Logout />
         </NavItem>
@@ -75,7 +79,8 @@ class AppNavbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  userType: state.auth.user ? state.auth.user.userType : "normal",
 });
 
 export default connect(
