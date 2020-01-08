@@ -3,17 +3,15 @@ This is a hostel complain portal.
 
 run ```npm install``` and ```npm run client-install ``` to install the dependencies.
 
-Before running the project just create a folder called config and create default.json file in it. 
+Before running the project just create a file called .env
 
-```json
-{
-    "mongoURI": "",
-    "jwtSecret": "ManageIt_secRetkey",
-    "pusherAppId": "",
-    "pusherKey": "",
-    "pusherSecret": "",
-    "pusherCluster": ""
-}
+```
+MONGOURI=
+JWTSECRET=
+PUSHER_APP_ID=
+PUSHER_KEY=
+PUSHER_SECRET=
+PUSHER_CLUSTER=
 ```
 
 Enter the mongouri,and all pusher appdetails. Create a pusher account and enter the required details. For mongo I am using online service called Mongo DB atlas.
