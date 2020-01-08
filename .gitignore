@@ -1,4 +1,3 @@
-config/default.json
 node_modules
 client/node_modules
-client/src/config/key.js
+.env

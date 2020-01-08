@@ -82,16 +82,16 @@ class OfficeComplaintList extends Component {
       unfiltereditems2=unfiltereditems;
     }
     if(filterPrimaryCategory!=="All" && unfiltereditems2){
-      var x;
-      for(x in unfiltereditems2){
+      var y;
+      for(y in unfiltereditems2){
         if(filterSubCategory!=="All"){
-          if(unfiltereditems2[x].PrimaryCategory===filterPrimaryCategory && unfiltereditems2[x].subCategory===filterSubCategory){
-            finalItems.push(unfiltereditems2[x])
+          if(unfiltereditems2[y].PrimaryCategory===filterPrimaryCategory && unfiltereditems2[y].subCategory===filterSubCategory){
+            finalItems.push(unfiltereditems2[y])
           }
         }
         else{
-          if(unfiltereditems2[x].PrimaryCategory===filterPrimaryCategory){
-            finalItems.push(unfiltereditems2[x])
+          if(unfiltereditems2[y].PrimaryCategory===filterPrimaryCategory){
+            finalItems.push(unfiltereditems2[y])
           }
         }
       }

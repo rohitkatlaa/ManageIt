@@ -1,14 +1,14 @@
 const express=require('express');
 const router=express.Router();
 const auth=require('../../middleware/auth');
-const config = require('config');
+require('dotenv').config();
 const Pusher = require('pusher');
 
 var pusher = new Pusher({
-  appId: config.pusherAppId,
-  key: config.pusherKey,
-  secret: config.pusherSecret,
-  cluster: config.pusherCluster,
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER,
   encrypted: true,
   disableStats: true
 });
