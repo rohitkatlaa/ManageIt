@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING, REFRESH_ITEMS, FILTERITEMS , CHANGESTATUS } from './types';
+import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING, REFRESH_ITEMS, FILTERITEMS, CHANGESTATUS,  UPVOTE} from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
@@ -67,6 +67,23 @@ export const addItem = item => (dispatch, getState) => {
     .then(res =>
       dispatch({
         type: ADD_ITEM,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+export const upVote = (complainId,userId) => (dispatch, getState) => {
+  const payload={
+    "userId":userId
+  }
+  axios
+    .post(`/api/complains/vote/${complainId}`, payload, tokenConfig(getState))
+    .then(res =>
+      dispatch({
+        type: UPVOTE,
         payload: res.data
       })
     )

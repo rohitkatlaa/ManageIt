@@ -33,6 +33,10 @@ const ComplainSchema=new Schema({
   status: {
     type: String,
     required: true
+  },
+  voteUserId: {
+    type: [String],
+    required: false
   }
 });
 

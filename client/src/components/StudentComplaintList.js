@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import { getItems, deleteItem , refreshItems} from '../actions/itemActions';
+import { getItems, deleteItem , refreshItems, upVote} from '../actions/itemActions';
 import PropTypes from 'prop-types';
+import { FaArrowUp } from 'react-icons/fa';
 
 
 class StudentComplaintList extends Component {
@@ -15,6 +16,13 @@ class StudentComplaintList extends Component {
 
   componentDidMount() {
     this.props.getItems();
+  }
+
+  upVoteClick = (id,userIdList) => {
+    // console.log("hi")
+    if(!userIdList.includes(this.props.userId)){
+      this.props.upVote(id,this.props.userId)
+    }
   }
 
   onDeleteClick = id => {
@@ -44,6 +52,7 @@ class StudentComplaintList extends Component {
 
   render() {
     const { items } = this.props.item;
+    console.log(items)
     const unfiltereditems=items;
     const { filterPrimaryCategory } = this.props.item;
     const { filterSubCategory } = this.props.item;
@@ -140,6 +149,9 @@ class StudentComplaintList extends Component {
                       <ListGroupItem style={{border: "none"}}>
                         Status: {item.status}
                       </ListGroupItem>
+                      <ListGroupItem style={{border: "none"}}>
+                        <a onClick={this.upVoteClick.bind(this, item._id,item.voteUserId)} style={{cursor: item.voteUserId.includes(this.props.userId) ? "default": "pointer",opacity: item.voteUserId.includes(this.props.userId) ? 0.4:1}}><FaArrowUp/></a> &nbsp; {item.voteUserId.length}
+                      </ListGroupItem>
                   </ListGroup>
                   </ListGroupItem>
               </CSSTransition>
@@ -153,11 +165,12 @@ class StudentComplaintList extends Component {
 
 const mapStateToProps = state => ({
   item: state.item,
+  userId: state.auth.user ?  state.auth.user._id : null,
   userEmail: state.auth.user ?  state.auth.user.email : null,
   isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(
   mapStateToProps,
-  { getItems, deleteItem, refreshItems }
+  { getItems, deleteItem, refreshItems, upVote }
 )(StudentComplaintList);

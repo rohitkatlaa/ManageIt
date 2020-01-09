@@ -48,7 +48,7 @@ router.post('/',auth,(req,res)=>{
     subCategory: req.body.subCategory,
     roomNum: req.body.roomNum,
     complainDesc: req.body.complainDesc,
-    status: req.body.status
+    status: req.body.status,
   });
 
   newComplain.save()
@@ -75,6 +75,19 @@ router.post('/status/:id',auth,(req,res)=>{
       }) 
       return res.json(complain)
     })
+});
+
+
+// @route POST api/complains/vote/:id
+// @desc Add vote for a complain
+// @access Private
+router.post('/vote/:id',auth,(req,res)=>{
+  const userId = req.body.userId
+  Complain.findOneAndUpdate({_id:req.params.id},{$push:{voteUserId: userId}},{new: true})
+    .then(complain=>res.json(complain))
+  // Complain.voteUserId.push(userId);
+  // Complain.save()
+  //   .then(complain=>res.json({success:true}))
 });
 
 

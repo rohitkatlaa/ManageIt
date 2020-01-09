@@ -5,7 +5,8 @@ import {
   DELETE_ITEM,
   ITEMS_LOADING,
   FILTERITEMS,
-  CHANGESTATUS
+  CHANGESTATUS,
+  UPVOTE
 } from '../actions/types';
 
 const initialState = {
@@ -19,6 +20,11 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case CHANGESTATUS:
+      return {
+        ...state,
+        items: [action.payload, ...state.items.filter(item => item._id !== action.payload._id)]
+      }
+    case UPVOTE:
       console.log(action.payload)
       return {
         ...state,
