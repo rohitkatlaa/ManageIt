@@ -107,7 +107,7 @@ class OfficeComplaintList extends Component {
               <CSSTransition key={item._id} timeout={500} classNames='fade'>
                 <ListGroupItem>
                   <ListGroup>
-                      <ListGroupItem style={{border: "none"}}>
+                      <ListGroupItem style={{border: "none"}} className="d-none d-md-block"> 
                         <Button
                           className='remove-btn float-right'
                           color='danger'
@@ -138,6 +138,40 @@ class OfficeComplaintList extends Component {
                         }
                         Category: {item.PrimaryCategory}
                       </ListGroupItem>
+                      <ListGroupItem style={{border: "none"}} className="d-md-none"> 
+                        <Button
+                          className='remove-btn float-right'
+                          color='danger'
+                          size='sm'
+                          onClick={this.onDeleteClick.bind(this, item._id)}
+                        >
+                          Delete
+                        </Button>
+                        { item.status==="pending" &&
+                        <Button
+                          className='remove-btn'
+                          color='primary'
+                          size='sm'
+                          onClick={this.onStatusChangeClick.bind(this,"inProgress",item._id)}
+                        >
+                          In Progress
+                        </Button>
+                        }
+                        { item.status==="inProgress" &&
+                        <Button
+                          className='remove-btn'
+                          color='primary'
+                          size='sm'
+                          onClick={this.onStatusChangeClick.bind(this,"completed",item._id)}
+                        >
+                          Completed
+                        </Button>
+                        }
+                      </ListGroupItem>
+                      <ListGroupItem style={{border: "none"}} className="d-md-none"> 
+                        Category: {item.PrimaryCategory}
+                      </ListGroupItem>
+                      
                       { item.subCategory!=="none" ?
                         <ListGroupItem style={{border: "none"}}>
                           SubCategory: {item.subCategory}
