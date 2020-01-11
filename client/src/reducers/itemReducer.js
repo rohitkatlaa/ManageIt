@@ -14,7 +14,8 @@ const initialState = {
   loading: false,
   filterPrimaryCategory: "All",
   filterSubCategory: "All",
-  filterStatus: "All"
+  filterStatus: "All",
+  sortParams: "default"
 };
 
 export default function(state = initialState, action) {
@@ -25,7 +26,6 @@ export default function(state = initialState, action) {
         items: [action.payload, ...state.items.filter(item => item._id !== action.payload._id)]
       }
     case UPVOTE:
-      console.log(action.payload)
       return {
         ...state,
         items: [action.payload, ...state.items.filter(item => item._id !== action.payload._id)]
@@ -35,7 +35,8 @@ export default function(state = initialState, action) {
         ...state,
         filterPrimaryCategory: action.payload.PrimaryCategory,
         filterSubCategory: action.payload.subCategory,
-        filterStatus: action.payload.status
+        filterStatus: action.payload.status,
+        sortParams: action.payload.sortParams
       }
     case REFRESH_ITEMS:
       if(action.payload.type==="add"){

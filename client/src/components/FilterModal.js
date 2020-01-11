@@ -17,7 +17,8 @@ class FilterModal extends Component {
     modal: false,
     PrimaryCategory: "All",
     subCategory: "All",
-    status: "All"
+    status: "All",
+    sortParams: "default"
   };
 
   toggle = () => {
@@ -36,7 +37,8 @@ class FilterModal extends Component {
     var filter={
       PrimaryCategory: this.state.PrimaryCategory,
       subCategory: this.state.subCategory,
-      status: this.state.status
+      status: this.state.status,
+      sortParams: this.state.sortParams
     }
 
     this.props.filterItems(filter)
@@ -113,11 +115,11 @@ class FilterModal extends Component {
             style={{ marginBottom: '2rem' }}
             onClick={this.toggle}
           >
-            Filter
+            Filter & Sort
           </Button>
 
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Filter</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Filter & Sort</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
@@ -142,8 +144,18 @@ class FilterModal extends Component {
                   </Input>
                 </FormGroup>
                 { this.renderPrimarySwitch() }
+                <FormGroup>
+                <Label for="itemCategory">Sort Based on Condition</Label>
+                  <Input type="select" name="sortParams" onChange={this.onChange} value={this.state.sortParams}>
+                    <option>default</option>
+                    <option>mostVotes</option>
+                    <option>leastVotes</option>
+                    <option>latestComplain</option>
+                    <option>oldestComplain</option>
+                  </Input>
+                </FormGroup>
                 <Button color='dark' style={{ marginTop: '2rem' }} block>
-                  Filter
+                  Filter & Sort
                 </Button>
               </FormGroup>
             </Form>

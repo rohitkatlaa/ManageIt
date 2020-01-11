@@ -14,7 +14,8 @@ class ComplaintList extends Component {
   render() {
     const { filterPrimaryCategory } = this.props.item;
     const { filterSubCategory } = this.props.item;
-    const { filterStatus } = this.props.item
+    const { filterStatus } = this.props.item;
+    const { sortParams } = this.props.item;
     return (
       <Container>
           { filterPrimaryCategory!=="All" ||  filterStatus!=="All" ? 
@@ -43,6 +44,18 @@ class ComplaintList extends Component {
               <br/>
             </div>
             : <Fragment/>}
+          { sortParams!=="default" ? 
+            <div>
+              <h5 style={{display:"inline"}}>SortParameters:</h5> &nbsp;
+              <Badge color="primary" pill>
+                  {sortParams}
+              </Badge>
+              <br/>
+              <br/>
+            </div>
+            :
+            <Fragment/>
+          }
           { this.props.userType==='staff' ? 
             <OfficeComplaintList/>
             :

@@ -57,6 +57,7 @@ class StudentComplaintList extends Component {
     const { filterPrimaryCategory } = this.props.item;
     const { filterSubCategory } = this.props.item;
     const { filterStatus } = this.props.item;
+    const { sortParams } = this.props.item;
     var finalItems=[];
     var unfiltereditems2=[];
     if(filterStatus!=="All" && unfiltereditems){
@@ -87,6 +88,21 @@ class StudentComplaintList extends Component {
     }
     else{
       finalItems=unfiltereditems2;
+    }
+    if(sortParams==="default"){
+      finalItems.sort(function(a,b){return new Date(b.date)-new Date(a.date)})
+    }
+    else if(sortParams==="mostVotes"){
+      finalItems.sort(function(a,b){return b.voteUserId.length-a.voteUserId.length})
+    }
+    else if(sortParams==="leastVotes"){
+      finalItems.sort(function(a,b){return a.voteUserId.length-b.voteUserId.length})
+    }
+    else if(sortParams==="latestComplain"){
+      finalItems.sort(function(a,b){return new Date(b.date)-new Date(a.date)})
+    }
+    else if(sortParams==="oldestComplain"){
+      finalItems.sort(function(a,b){return new Date(a.date)-new Date(b.date)})
     }
     return (
       <Container>
@@ -150,7 +166,13 @@ class StudentComplaintList extends Component {
                         Status: {item.status}
                       </ListGroupItem>
                       <ListGroupItem style={{border: "none"}}>
-                        <a onClick={this.upVoteClick.bind(this, item._id,item.voteUserId)} style={{cursor: item.voteUserId.includes(this.props.userId) ? "default": "pointer",opacity: item.voteUserId.includes(this.props.userId) ? 0.4:1}}><FaArrowUp/></a> &nbsp; {item.voteUserId.length}
+                        Number of votes:&nbsp;
+                        { this.props.isAuthenticated ?
+                          <a onClick={this.upVoteClick.bind(this, item._id,item.voteUserId)} style={{cursor: item.voteUserId.includes(this.props.userId) ? "default": "pointer",opacity: item.voteUserId.includes(this.props.userId) ? 0.4:1}}><FaArrowUp/></a> 
+                          :
+                          <Fragment/>
+                        }
+                        &nbsp; {item.voteUserId.length}
                       </ListGroupItem>
                   </ListGroup>
                   </ListGroupItem>

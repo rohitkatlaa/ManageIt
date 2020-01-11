@@ -144,7 +144,7 @@ class ItemModal extends Component {
               </Input>
             </FormGroup>
             <FormGroup>
-            <Label for='RoomNum'>Room Number adjacent to the Bathroom</Label><span style={{color: "red"}}>*</span>
+            <Label for='RoomNum'>Bathroom Identification number</Label><span style={{color: "red"}}>*</span>
             <Input
               type='text'
               name='roomNum'
