@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
+import { Container, ListGroup, ListGroupItem, Button, Collapse } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getItems, deleteItem , refreshItems, statusChange} from '../actions/itemActions';
 import PropTypes from 'prop-types';
 import Pusher from 'pusher-js';
 import config from '../config/key'
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 
 class OfficeComplaintList extends Component {
@@ -13,6 +14,10 @@ class OfficeComplaintList extends Component {
     getItems: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
   };
+
+  state = {
+      expandId : []
+  }
 
   componentDidMount() {
     this.props.getItems();
@@ -52,6 +57,22 @@ class OfficeComplaintList extends Component {
       return diffHrs.toString()+" Hours before";
     }
     return diffDays.toString()+" Days before"
+  }
+
+  setExpand(id){
+    return this.state.expandId.includes(id);
+  }
+
+  expand = (id) => {
+    var array = this.state.expandId;
+    const index = array.indexOf(id);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
+    else{
+      array.push(id);
+    }
+    this.setState({expandId:array});
   }  
 
 
@@ -195,36 +216,47 @@ class OfficeComplaintList extends Component {
                         :
                         <Fragment/>
                       }
-                      { item.roomNum!=="000" ?
-                        <ListGroupItem style={{border: "none"}}>
-                          RoomNumber: {item.roomNum}
+                      <ListGroupItem style={{border: "none"}}>
+                          Created: { this.displayDate(item.date) }
+                      </ListGroupItem>
+                      {this.setExpand(item._id) ?
+                      <Collapse isOpen={true}>
+                        { item.roomNum!=="000" ?
+                          <ListGroupItem style={{border: "none"}}>
+                            RoomNumber: {item.roomNum}
+                          </ListGroupItem>
+                          :
+                          <Fragment/>
+                        }
+                        { item.complainDesc ?
+                          <ListGroupItem style={{border: "none"}}>
+                            Complain Description: {item.complainDesc}
+                          </ListGroupItem>
+                          :
+                          <Fragment/>
+                        }
+                        { item.imageData ? 
+                        <ListGroupItem  style={{border: "none"}}>
+                          <img src={item.imageData} alt="upload-image" width="250px" height="250px"/>
                         </ListGroupItem>
                         :
                         <Fragment/>
-                      }
-                      { item.complainDesc ?
+                        }
                         <ListGroupItem style={{border: "none"}}>
-                          Complain Description: {item.complainDesc}
+                          CreatedBy: {item.userEmail}
                         </ListGroupItem>
-                        :
-                        <Fragment/>
-                      }
-                      { item.imageData ? 
-                      <ListGroupItem  style={{border: "none"}}>
-                        <img src={item.imageData} alt="upload-image" width="250px" height="250px"/>
+                        <ListGroupItem style={{border: "none"}}>
+                          Status: {item.status}
+                        </ListGroupItem>
+                        <ListGroupItem style={{border: "none"}}>
+                            <a className = "float-right" onClick={this.expand.bind(this, item._id)} style={{cursor: "pointer",opacity:1}}><FaChevronUp/></a> 
                       </ListGroupItem>
-                      :
-                      <Fragment/>
-                      }
+                       </Collapse>
+                       :
                       <ListGroupItem style={{border: "none"}}>
-                        CreatedBy: {item.userEmail}
+                            <a className = "float-right" onClick={this.expand.bind(this, item._id)} style={{cursor: "pointer",opacity:1}}><FaChevronDown/></a> 
                       </ListGroupItem>
-                      <ListGroupItem style={{border: "none"}}>
-                        Created: { this.displayDate(item.date) }
-                      </ListGroupItem>
-                      <ListGroupItem style={{border: "none"}}>
-                        Status: {item.status}
-                      </ListGroupItem>
+                    }
                   </ListGroup>
                 </ListGroupItem>
               </CSSTransition>
