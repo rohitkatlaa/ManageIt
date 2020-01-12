@@ -18,7 +18,8 @@ class FilterModal extends Component {
     PrimaryCategory: "All",
     subCategory: "All",
     status: "All",
-    sortParams: "default"
+    sortParams: "default",
+    sortByUser: "All"
   };
 
   toggle = () => {
@@ -33,15 +34,14 @@ class FilterModal extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
     var filter={
       PrimaryCategory: this.state.PrimaryCategory,
       subCategory: this.state.subCategory,
       status: this.state.status,
-      sortParams: this.state.sortParams
+      sortParams: this.state.sortParams,
+      sortByUser: this.state.sortByUser
     }
-
-    this.props.filterItems(filter)
+    this.props.filterItems(filter);
 
     // Close modal
     this.toggle();
@@ -154,9 +154,22 @@ class FilterModal extends Component {
                     <option>oldestComplain</option>
                   </Input>
                 </FormGroup>
+                {
+                 (this.props.isAuthenticated) ? 
+                  <FormGroup>
+                    <Label for="itemCategory">Filter Based On User</Label>
+                    <Input type="select" name="sortByUser" onChange={this.onChange} value={this.state.sortByUser}>
+                      <option>All</option>
+                      <option>MyComplains</option>
+                    </Input>
+                  </FormGroup>
+                  :
+                  ""
+                  }
                 <Button color='dark' style={{ marginTop: '2rem' }} block>
                   Filter & Sort
                 </Button>
+
               </FormGroup>
             </Form>
           </ModalBody>
@@ -168,6 +181,7 @@ class FilterModal extends Component {
 
 const mapStateToProps = state => ({
   item: state.item,
+  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(

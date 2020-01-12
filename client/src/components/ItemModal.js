@@ -82,7 +82,6 @@ class ItemModal extends Component {
         newItem.subCategory=this.state.subCategory;
       }
       if(this.state.roomNum!==""){
-        console.log("hi")
         newItem.roomNum=this.state.roomNum;
       }
       else{
