@@ -4,7 +4,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getItems, deleteItem , refreshItems, upVote} from '../actions/itemActions';
 import PropTypes from 'prop-types';
-import { FaArrowUp } from 'react-icons/fa';
+import { FaArrowUp, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 
 class StudentComplaintList extends Component {
@@ -60,7 +60,6 @@ class StudentComplaintList extends Component {
   expand = (id) => {
     var array = this.state.expandId;
     const index = array.indexOf(id);
-    console.log(index);
     if (index > -1) {
       array.splice(index, 1);
     }
@@ -154,6 +153,9 @@ class StudentComplaintList extends Component {
                         :
                         <Fragment/>
                       }
+                      <ListGroupItem style={{border: "none"}}>
+                          Created: { this.displayDate(item.date) }
+                      </ListGroupItem>
                       {this.setExpand(item._id) ?
                         <Collapse isOpen={true}>
                         { item.roomNum!=="000" ?
@@ -181,9 +183,6 @@ class StudentComplaintList extends Component {
                           CreatedBy: {item.userEmail}
                         </ListGroupItem>
                         <ListGroupItem style={{border: "none"}}>
-                          Created: { this.displayDate(item.date) }
-                        </ListGroupItem>
-                        <ListGroupItem style={{border: "none"}}>
                           Status: {item.status}
                         </ListGroupItem>
                         <ListGroupItem style={{border: "none"}}>
@@ -195,28 +194,14 @@ class StudentComplaintList extends Component {
                           }
                         &nbsp; {item.voteUserId.length}
                       </ListGroupItem>
-                      <Button
-                            className='remove-btn float-right'
-                            color='success'
-                            size='sm'
-                            onClick={this.expand.bind(this, item._id)}
-                          >
-                            Close
-                      </Button> 
+                      <ListGroupItem style={{border: "none"}}>
+                            <a className = "float-right" onClick={this.expand.bind(this, item._id)} style={{cursor: "pointer",opacity:1}}><FaChevronUp/></a> 
+                      </ListGroupItem>
                       </Collapse>
                       :
                       <ListGroupItem style={{border: "none"}}>
-                      {
-                      <Button
-                            className='remove-btn float-right'
-                            color='info'
-                            size='sm'
-                            onClick={this.expand.bind(this, item._id)}
-                          >
-                            Expand
-                      </Button>
-                      }
-                      </ListGroupItem> 
+                            <a className = "float-right" onClick={this.expand.bind(this, item._id)} style={{cursor: "pointer",opacity:1}}><FaChevronDown/></a> 
+                      </ListGroupItem>
                     }
                   </ListGroup>
                  </ListGroupItem>

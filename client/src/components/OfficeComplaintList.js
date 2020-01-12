@@ -6,6 +6,7 @@ import { getItems, deleteItem , refreshItems, statusChange} from '../actions/ite
 import PropTypes from 'prop-types';
 import Pusher from 'pusher-js';
 import config from '../config/key'
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 
 class OfficeComplaintList extends Component {
@@ -65,7 +66,6 @@ class OfficeComplaintList extends Component {
   expand = (id) => {
     var array = this.state.expandId;
     const index = array.indexOf(id);
-    console.log(index);
     if (index > -1) {
       array.splice(index, 1);
     }
@@ -216,6 +216,9 @@ class OfficeComplaintList extends Component {
                         :
                         <Fragment/>
                       }
+                      <ListGroupItem style={{border: "none"}}>
+                          Created: { this.displayDate(item.date) }
+                      </ListGroupItem>
                       {this.setExpand(item._id) ?
                       <Collapse isOpen={true}>
                         { item.roomNum!=="000" ?
@@ -243,33 +246,16 @@ class OfficeComplaintList extends Component {
                           CreatedBy: {item.userEmail}
                         </ListGroupItem>
                         <ListGroupItem style={{border: "none"}}>
-                          Created: { this.displayDate(item.date) }
-                        </ListGroupItem>
-                        <ListGroupItem style={{border: "none"}}>
                           Status: {item.status}
                         </ListGroupItem>
-                        <Button
-                            className='remove-btn float-right'
-                            color='success'
-                            size='sm'
-                            onClick={this.expand.bind(this, item._id)}
-                          >
-                            Close
-                        </Button> 
+                        <ListGroupItem style={{border: "none"}}>
+                            <a className = "float-right" onClick={this.expand.bind(this, item._id)} style={{cursor: "pointer",opacity:1}}><FaChevronUp/></a> 
+                      </ListGroupItem>
                        </Collapse>
                        :
                       <ListGroupItem style={{border: "none"}}>
-                      {
-                      <Button
-                            className='remove-btn float-right'
-                            color='info'
-                            size='sm'
-                            onClick={this.expand.bind(this, item._id)}
-                          >
-                            Expand
-                      </Button>
-                      }
-                      </ListGroupItem> 
+                            <a className = "float-right" onClick={this.expand.bind(this, item._id)} style={{cursor: "pointer",opacity:1}}><FaChevronDown/></a> 
+                      </ListGroupItem>
                     }
                   </ListGroup>
                 </ListGroupItem>
