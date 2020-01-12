@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
+import { Container, ListGroup, ListGroupItem, Button, Collapse } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getItems, deleteItem , refreshItems, upVote} from '../actions/itemActions';
@@ -14,6 +14,10 @@ class StudentComplaintList extends Component {
     isAuthenticated: PropTypes.bool
   };
 
+  state = {
+    expandId : []
+  }
+
   componentDidMount() {
     this.props.getItems();
   }
@@ -21,7 +25,7 @@ class StudentComplaintList extends Component {
   upVoteClick = (id,userIdList) => {
     // console.log("hi")
     if(!userIdList.includes(this.props.userId)){
-      this.props.upVote(id,this.props.userId)
+      this.props.upVote(id,this.props.userId);
     }
   }
 
@@ -29,7 +33,6 @@ class StudentComplaintList extends Component {
     this.props.deleteItem(id);
   };
 
-  
   displayDate(date){
     var a=new Date(date);
     var b=new Date();
@@ -50,9 +53,25 @@ class StudentComplaintList extends Component {
     return diffDays.toString()+" Days before"
   }
 
+  setExpand(id){
+    return this.state.expandId.includes(id);
+  }
+
+  expand = (id) => {
+    var array = this.state.expandId;
+    const index = array.indexOf(id);
+    console.log(index);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
+    else{
+      array.push(id);
+    }
+    this.setState({expandId:array});
+  }
+
   render() {
     const { items } = this.props.item;
-    console.log(items)
     const unfiltereditems=items;
     const { filterPrimaryCategory } = this.props.item;
     const { filterSubCategory } = this.props.item;
@@ -135,47 +154,72 @@ class StudentComplaintList extends Component {
                         :
                         <Fragment/>
                       }
-                      { item.roomNum!=="000" ?
-                        <ListGroupItem style={{border: "none"}}>
-                          RoomNumber: {item.roomNum}
-                        </ListGroupItem>
-                        :
-                        <Fragment/>
-                      }
-                      { item.complainDesc ?
-                        <ListGroupItem style={{border: "none"}}>
-                          Complain Description: {item.complainDesc}
-                        </ListGroupItem>
-                        :
-                        <Fragment/>
-                      }
-                      { item.imageData ? 
-                      <ListGroupItem  style={{border: "none"}}>
-                        <img src={item.imageData} alt="upload-image" width="250px" height="250px"/>
-                      </ListGroupItem>
-                      :
-                      <Fragment/>
-                      }
-                      <ListGroupItem style={{border: "none"}}>
-                        CreatedBy: {item.userEmail}
-                      </ListGroupItem>
-                      <ListGroupItem style={{border: "none"}}>
-                        Created: { this.displayDate(item.date) }
-                      </ListGroupItem>
-                      <ListGroupItem style={{border: "none"}}>
-                        Status: {item.status}
-                      </ListGroupItem>
-                      <ListGroupItem style={{border: "none"}}>
-                        Number of votes:&nbsp;
-                        { this.props.isAuthenticated ?
-                          <a onClick={this.upVoteClick.bind(this, item._id,item.voteUserId)} style={{cursor: item.voteUserId.includes(this.props.userId) ? "default": "pointer",opacity: item.voteUserId.includes(this.props.userId) ? 0.4:1}}><FaArrowUp/></a> 
+                      {this.setExpand(item._id) ?
+                        <Collapse isOpen={true}>
+                        { item.roomNum!=="000" ?
+                          <ListGroupItem style={{border: "none"}}>
+                            RoomNumber: {item.roomNum}
+                          </ListGroupItem>
                           :
                           <Fragment/>
                         }
+                        { item.complainDesc ?
+                          <ListGroupItem style={{border: "none"}}>
+                            Complain Description: {item.complainDesc}
+                          </ListGroupItem>
+                          :
+                          <Fragment/>
+                        }
+                        { item.imageData ? 
+                        <ListGroupItem  style={{border: "none"}}>
+                          <img src={item.imageData} alt="upload-image" width="250px" height="250px"/>
+                        </ListGroupItem>
+                        :
+                        <Fragment/>
+                        }
+                        <ListGroupItem style={{border: "none"}}>
+                          CreatedBy: {item.userEmail}
+                        </ListGroupItem>
+                        <ListGroupItem style={{border: "none"}}>
+                          Created: { this.displayDate(item.date) }
+                        </ListGroupItem>
+                        <ListGroupItem style={{border: "none"}}>
+                          Status: {item.status}
+                        </ListGroupItem>
+                        <ListGroupItem style={{border: "none"}}>
+                          Number of votes:&nbsp;
+                          { this.props.isAuthenticated ?
+                            <a onClick={this.upVoteClick.bind(this, item._id,item.voteUserId)} style={{cursor: item.voteUserId.includes(this.props.userId) ? "default": "pointer",opacity: item.voteUserId.includes(this.props.userId) ? 0.4:1}}><FaArrowUp/></a> 
+                            :
+                            <Fragment/>
+                          }
                         &nbsp; {item.voteUserId.length}
                       </ListGroupItem>
+                      <Button
+                            className='remove-btn float-right'
+                            color='success'
+                            size='sm'
+                            onClick={this.expand.bind(this, item._id)}
+                          >
+                            Close
+                      </Button> 
+                      </Collapse>
+                      :
+                      <ListGroupItem style={{border: "none"}}>
+                      {
+                      <Button
+                            className='remove-btn float-right'
+                            color='info'
+                            size='sm'
+                            onClick={this.expand.bind(this, item._id)}
+                          >
+                            Expand
+                      </Button>
+                      }
+                      </ListGroupItem> 
+                    }
                   </ListGroup>
-                  </ListGroupItem>
+                 </ListGroupItem>
               </CSSTransition>
             ))}
           </TransitionGroup>
