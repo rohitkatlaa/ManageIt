@@ -50,10 +50,11 @@ class ComplaintList extends Component {
               <h5 style={{display:"inline"}}>SortParameters:</h5> &nbsp;
               {sortParams !== "default" ?
               <Badge color="primary" pill>
-                  {sortParams}
+                  {sortParams} 
               </Badge>
               :
               ""}
+              &nbsp;
               {sortByUser !== "All" ?
               <Badge color="primary" pill>
                   {sortByUser}
