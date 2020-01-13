@@ -25,6 +25,11 @@ class FilterModal extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
+      PrimaryCategory: "All",
+      subCategory: "All",
+      status: "All",
+      sortParams: "default",
+      sortByUser: "All"
   });
   };
 
