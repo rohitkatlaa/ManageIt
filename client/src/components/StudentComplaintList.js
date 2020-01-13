@@ -23,7 +23,6 @@ class StudentComplaintList extends Component {
   }
 
   upVoteClick = (id,userIdList) => {
-    // console.log("hi")
     if(!userIdList.includes(this.props.userId)){
       this.props.upVote(id,this.props.userId);
     }
@@ -76,6 +75,7 @@ class StudentComplaintList extends Component {
     const { filterSubCategory } = this.props.item;
     const { filterStatus } = this.props.item;
     const { sortParams } = this.props.item;
+    const { sortByUser } = this.props.item;
     var finalItems=[];
     var unfiltereditems2=[];
     if(filterStatus!=="All" && unfiltereditems){
@@ -122,6 +122,14 @@ class StudentComplaintList extends Component {
     else if(sortParams==="oldestComplain"){
       finalItems.sort(function(a,b){return new Date(a.date)-new Date(b.date)})
     }
+    if(sortByUser==="MyComplains"){
+      var email = this.props.userEmail;
+      finalItems = finalItems.filter(function(val){
+        return email === val.userEmail;
+      })
+      finalItems.sort(function(a,b){return new Date(b.date)-new Date(a.date)});
+    }
+
     return (
       <Container>
         <ListGroup>

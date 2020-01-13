@@ -15,7 +15,8 @@ const initialState = {
   filterPrimaryCategory: "All",
   filterSubCategory: "All",
   filterStatus: "All",
-  sortParams: "default"
+  sortParams: "default",
+  sortByUser: "All"
 };
 
 export default function(state = initialState, action) {
@@ -36,7 +37,8 @@ export default function(state = initialState, action) {
         filterPrimaryCategory: action.payload.PrimaryCategory,
         filterSubCategory: action.payload.subCategory,
         filterStatus: action.payload.status,
-        sortParams: action.payload.sortParams
+        sortParams: action.payload.sortParams,
+        sortByUser: action.payload.sortByUser
       }
     case REFRESH_ITEMS:
       if(action.payload.type==="add"){

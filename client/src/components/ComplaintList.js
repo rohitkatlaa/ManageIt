@@ -16,6 +16,7 @@ class ComplaintList extends Component {
     const { filterSubCategory } = this.props.item;
     const { filterStatus } = this.props.item;
     const { sortParams } = this.props.item;
+    const { sortByUser } = this.props.item;
     return (
       <Container>
           { filterPrimaryCategory!=="All" ||  filterStatus!=="All" ? 
@@ -44,12 +45,22 @@ class ComplaintList extends Component {
               <br/>
             </div>
             : <Fragment/>}
-          { sortParams!=="default" ? 
+          { sortParams!=="default" || sortByUser !== "All" ? 
             <div>
               <h5 style={{display:"inline"}}>SortParameters:</h5> &nbsp;
+              {sortParams !== "default" ?
               <Badge color="primary" pill>
-                  {sortParams}
+                  {sortParams} 
               </Badge>
+              :
+              ""}
+              &nbsp;
+              {sortByUser !== "All" ?
+              <Badge color="primary" pill>
+                  {sortByUser}
+              </Badge>
+              :
+              ""}
               <br/>
               <br/>
             </div>
