@@ -3,14 +3,15 @@ const router=express.Router();
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');  
+const auth=require('../../middleware/auth');
 
 // User Model
 const User=require('../../models/User');
 
 // @route POST api/users
 // @desc Register a user
-// @access Public
-router.post('/', (req, res) => {
+// @access Private
+router.post('/',auth,(req, res) => {
     const { name, email, password, userType } = req.body;
   
     // Simple validation

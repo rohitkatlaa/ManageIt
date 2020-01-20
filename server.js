@@ -26,6 +26,7 @@ mongoose.connect(db,{
 app.use('/api/complains',require('./routes/api/complain'));
 app.use('/api/users',require('./routes/api/users'));
 app.use('/api/auth',require('./routes/api/auth'));
+app.use('/api/roles',require('./routes/api/roles'));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
