@@ -72,6 +72,7 @@ class RegisterModal extends Component {
 
     // Attempt to register
     this.props.register(newUser);
+    this.toggle()
   };
 
   render() {

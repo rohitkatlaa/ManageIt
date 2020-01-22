@@ -10,7 +10,6 @@ const UserSchema=new Schema({
   userType:{
     type: String,
     required: true,
-    enum: ['student','staff']
   },
   email:{
     type:String,
