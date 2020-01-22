@@ -37,4 +37,4 @@ const RolesSchema=new Schema({
   }
 });
 
-module.exports=Complain =mongoose.model('user',RolesSchema);
+module.exports=Complain =mongoose.model('roles',RolesSchema);
