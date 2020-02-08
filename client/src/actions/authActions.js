@@ -24,6 +24,7 @@ export const loadUser = () => (dispatch, getState) => {
   if(token == null){
     console.log("Logging out");
     dispatch(logout());
+    return;
   }
   axios
     .get('/api/auth/user', tokenConfig(getState))
