@@ -6,7 +6,8 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  Container
+  Container,
+  NavLink
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -28,10 +29,13 @@ class AppNavbar extends Component {
       isOpen: !this.state.isOpen
     });
   };
-
+  componentDidMount(){
+    const { isAuthenticated, user } = this.props.auth;
+    console.log("here"+isAuthenticated);
+  }
   render() {
     const { isAuthenticated, user } = this.props.auth;
-
+    console.log("het"+isAuthenticated);
     const authLinks = (
       <Fragment>
         <NavItem>
@@ -41,10 +45,19 @@ class AppNavbar extends Component {
         </NavItem>
         { this.props.userType==="staff" ?
           <NavItem>
-            <RegisterModal />
+              <RegisterModal />
           </NavItem>
           :
           <Fragment/>
+        }
+        { this.props.userType === "staff"?
+        <NavItem>
+          <NavLink href='/createRole/'>
+            Create a Role
+          </NavLink>
+        </NavItem>
+        :
+        <Fragment />
         }
         <NavItem>
           <Logout />
