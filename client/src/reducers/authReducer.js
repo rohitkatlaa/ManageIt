@@ -62,10 +62,6 @@ export default function(state = initialState, action) {
         isAuthenticated: false,
         isLoading: false
       };
-    case ROLE_CREATION_SUCCESS:
-      return{
-        ...state
-      } 
     default:
       return state;
   }

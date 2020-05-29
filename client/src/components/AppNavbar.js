@@ -31,11 +31,9 @@ class AppNavbar extends Component {
   };
   componentDidMount(){
     const { isAuthenticated, user } = this.props.auth;
-    console.log("here"+isAuthenticated);
   }
   render() {
     const { isAuthenticated, user } = this.props.auth;
-    console.log("het"+isAuthenticated);
     const authLinks = (
       <Fragment>
         <NavItem>

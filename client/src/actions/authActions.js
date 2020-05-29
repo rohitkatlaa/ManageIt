@@ -20,16 +20,13 @@ export const loadUser = () => (dispatch, getState) => {
   // User loading
   dispatch({ type: USER_LOADING });
   const token = localStorage.getItem("token");
-  console.log("TOKEN " + token);
   if(token == null){
-    console.log("Logging out");
     dispatch(logout());
     return;
   }
   axios
     .get('/api/auth/user', tokenConfig(getState))
     .then(res =>{
-      console.log(res)
       dispatch({
         type: USER_LOADED,
         payload: res.data
@@ -131,34 +128,3 @@ export const tokenConfig = getState => {
   return config;
 };
 
-// Register User
-export const createRole = ({ name, primaryCategory, subCategory, deletePermission, statusPermission, minDays, minVotes, pushComplain }) => (dispatch,getState) => {
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  // Request body
-  const body = JSON.stringify({ name, primaryCategory, subCategory, deletePermission, statusPermission, minDays, minVotes, pushComplain });
-
-  axios
-    .post('/api/roles', body,  tokenConfig(getState))
-    .then(res =>{
-      console.log(res.data);
-      dispatch({
-        type: ROLE_CREATION_SUCCESS,
-        payload: res.data
-      })
-    }
-    )
-    .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, 'ROLE_CREATION_FAIL')
-      );
-      dispatch({
-        type: ROLE_CREATION_FAIL
-      });
-    });
-};

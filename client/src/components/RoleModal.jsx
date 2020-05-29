@@ -19,7 +19,7 @@ import {
 
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { createRole } from '../actions/authActions';
+import { createRole } from '../actions/roleActions';
 import { clearErrors } from '../actions/errorActions';
   
 
