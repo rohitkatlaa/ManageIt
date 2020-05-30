@@ -33,8 +33,8 @@ export const loadUser = () => (dispatch, getState) => {
     });
 };
 
-// Register User
-export const register = ({ name, email, userType, password }) => dispatch => {
+// Register User  //should be private to the admin
+export const register = ({ name, email, userType, password }) => (dispatch, getState) => {
   // Headers
   const config = {
     headers: {
@@ -46,7 +46,7 @@ export const register = ({ name, email, userType, password }) => dispatch => {
   const body = JSON.stringify({ name, email, userType, password });
 
   axios
-    .post('/api/users', body, config)
+    .post('/api/users', body, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: REGISTER_SUCCESS,
@@ -62,7 +62,6 @@ export const register = ({ name, email, userType, password }) => dispatch => {
       });
     });
 };
-
 // Login User
 export const login = ({ email, password }) => dispatch => {
   // Headers
