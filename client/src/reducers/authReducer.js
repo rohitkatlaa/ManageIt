@@ -44,6 +44,7 @@ export default function(state = initialState, action) {
           token:action.payload.token
         };
     case REGISTER_SUCCESS:
+      localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         isAuthenticated: true,
