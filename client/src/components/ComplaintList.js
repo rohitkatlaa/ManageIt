@@ -3,11 +3,19 @@ import { Container,Badge } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import StudentComplaintList from './StudentComplaintList';
+import { getRoles } from '../actions/roleActions';
 import OfficeComplaintList from './OfficeComplaintList';
 
 
 class ComplaintList extends Component {
+  
+  componentDidMount(){
+    this.props.getRoles();
+    console.log("Roles "+this.props.roles);
+  }
+
   static propTypes = {
+    getRoles: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool
   };
 
@@ -80,9 +88,11 @@ class ComplaintList extends Component {
 const mapStateToProps = state => ({
   item: state.item,
   userType: state.auth.user ? state.auth.user.userType : "normal",
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  roles: state.roles
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  {getRoles}
 )(ComplaintList);

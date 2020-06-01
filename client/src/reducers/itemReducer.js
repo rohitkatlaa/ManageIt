@@ -16,7 +16,7 @@ const initialState = {
   filterSubCategory: "All",
   filterStatus: "All",
   sortParams: "default",
-  sortByUser: "All"
+  sortByUser: "All",
 };
 
 export default function(state = initialState, action) {
