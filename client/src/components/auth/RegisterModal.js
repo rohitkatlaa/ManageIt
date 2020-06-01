@@ -88,7 +88,6 @@ class RegisterModal extends Component {
         <NavLink onClick={this.toggle} href='#'>
           Create a User
         </NavLink>
-
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Register</ModalHeader>
           <ModalBody>

@@ -6,11 +6,13 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  ROLE_CREATION_SUCCESS,
+  ROLE_CREATION_FAIL
 } from '../actions/types';
 
 const initialState = {
-  token: localStorage.getItem('token'),
+  token: null,
   isAuthenticated: null,
   isLoading: false,
   user: null
@@ -21,14 +23,16 @@ export default function(state = initialState, action) {
     case USER_LOADING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        token:localStorage.getItem('token')
       };
     case USER_LOADED:
       return {
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        user: action.payload
+        user: action.payload,
+        // token:localStorage.getItem('token')
       };
     case LOGIN_SUCCESS:
         localStorage.setItem('token', action.payload.token);
@@ -36,14 +40,16 @@ export default function(state = initialState, action) {
           ...state,
           ...action.payload,
           isAuthenticated: true,
-          isLoading: false
+          isLoading: false,
+          token:action.payload.token
         };
     case REGISTER_SUCCESS:
       localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         isAuthenticated: true,
-        isLoading: false
+        isLoading: false,
+        token:action.payload.token
       };
     case AUTH_ERROR:
     case LOGIN_FAIL:

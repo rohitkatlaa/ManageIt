@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING, REFRESH_ITEMS, FILTERITEMS, CHANGESTATUS,  UPVOTE} from './types';
+import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING, REFRESH_ITEMS, FILTERITEMS, CHANGESTATUS,  UPVOTE, GET_ROLES} from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
@@ -26,7 +26,6 @@ export const filterItems = filterParams => dispatch => {
 }
 
 export const refreshItems = items => dispatch => {
-  // console.log(items)
   if(items.type==='add'){
     axios
       .get(`/api/complains/${items.complainId}`)
@@ -49,7 +48,6 @@ export const refreshItems = items => dispatch => {
 };
 
 export const statusChange = (status,id) => (dispatch,getState) => {
-  console.log("status is being changed")
   axios
     .post(`/api/complains/status/${id}`,status,tokenConfig(getState))
     .then(res=>
@@ -111,3 +109,5 @@ export const setItemsLoading = () => {
     type: ITEMS_LOADING
   };
 };
+
+
