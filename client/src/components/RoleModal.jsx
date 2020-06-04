@@ -37,6 +37,7 @@ class RoleModal extends Component{
   };
 
   static propTypes = {
+     // isAuthenticated: PropTypes.bool.isRequired,
       error: PropTypes.object.isRequired,
       createRole: PropTypes.func.isRequired,
       clearErrors: PropTypes.func.isRequired
