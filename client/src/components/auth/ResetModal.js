@@ -14,7 +14,7 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login } from '../../actions/authActions';
+import { resetPassword } from '../../actions/resetActions';
 import { clearErrors } from '../../actions/errorActions';
 
 class ResetModal extends Component{
@@ -24,6 +24,13 @@ class ResetModal extends Component{
         newPassword: null,
         verifyPassword: null,
         msg: null
+    };
+
+    static propTypes = {
+        isAuthenticated: PropTypes.bool.isRequired,
+        error: PropTypes.object.isRequired,
+        resetPassword: PropTypes.func.isRequired,
+        clearErrors: PropTypes.func.isRequired
     };
 
     toggle = () => {
