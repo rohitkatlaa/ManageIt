@@ -21,7 +21,8 @@ class ResetModal extends Component{
 
     state = {
         modal: false,
-        password: null,
+        newPassword: null,
+        verifyPassword: null,
         msg: null
     };
 
@@ -38,11 +39,13 @@ class ResetModal extends Component{
 
     onSubmit = e => {
         e.preventDefault();
-        const { password } = this.state;
-        const newPassword = {
-            password
+        const { newPassword, verifyPassword } = this.state;
+        const Password = {
+            newPassword,
+            verifyPassword
         };
         //this.props.createRole(newRole);
+        console.log(Password);
         this.toggle();
     };
 
@@ -63,9 +66,20 @@ class ResetModal extends Component{
                                 <Label for='password'>New Password</Label>
                                 <Input
                                     type="password"
-                                    name="password"
-                                    id="password"
+                                    name="newPassword"
+                                    id="newPassword"
                                     placeholder="New Password"
+                                    className="mb-3"                            
+                                    onChange={this.onChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for='password'>Re-Enter New Password</Label>
+                                <Input
+                                    type="password"
+                                    name="verifyPassword"
+                                    id="verifyPassword"
+                                    placeholder="Re-Enter Password"
                                     className="mb-3"                            
                                     onChange={this.onChange}
                                 />

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
-const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/auth');
 
 //importing User Model
@@ -12,9 +11,28 @@ const User = require('../../models/User');
 // @desc   Reset User Password
 // @access Private
 
-router.post('/reset', auth, (req, res) => {
+router.post('/', auth, (req, res) => {
   const { newPassword } = req.body;
-  
+  if(!newPassword){
+    return res.status(400).send({msg: "Field cannot be empty"});
+  }
+
+  User.findById(req.user.id)
+      .then(user => {
+        if(!user) return res.status(400).send({msg: 'Unauthorized!'});
+
+        if(req.body.newPassword === req.body.verifyPassword){
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
+              if(err) throw err;
+              var query = { _id: req.user.id };
+              var reset = { $set: {password: hash} };
+              User.findOneAndUpdate( query, reset, {new: true})
+                  .then(user => res.json(user));
+            })
+          })
+        };
+      });
 });
 
 module.exports = router;
