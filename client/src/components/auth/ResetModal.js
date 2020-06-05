@@ -33,8 +33,28 @@ class ResetModal extends Component{
         clearErrors: PropTypes.func.isRequired
     };
 
+
+    componentDidUpdate(prevProps) {
+        const { error, isAuthenticated } = this.props;
+        if (error !== prevProps.error) {
+          // Check for Reset error
+          if (error.id === 'PASSWORD_RESET_FAIL') {
+            this.setState({ msg: error.msg.msg });
+          } else {
+            this.setState({ msg: null });
+          }
+        }
+    
+        // If authenticated, close modal
+        if (this.state.modal) {
+          if (isAuthenticated) {
+            this.toggle();
+          }
+        }
+      }
+
     toggle = () => {
-       // this.props.clearErrors();
+        this.props.clearErrors();
         this.setState({
             modal: !this.state.modal
         });
@@ -51,7 +71,7 @@ class ResetModal extends Component{
             newPassword,
             verifyPassword
         };
-        //this.props.createRole(newRole);
+        this.props.resetPassword(Password);
         console.log(Password);
         this.toggle();
     };
@@ -102,5 +122,11 @@ class ResetModal extends Component{
     }
 }
 
-export default ResetModal;
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    error: state.error
+});
+
+export default connect(mapStateToProps, {resetPassword, clearErrors})(ResetModal);
 
