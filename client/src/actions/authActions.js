@@ -11,7 +11,8 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   ROLE_CREATION_SUCCESS,
-  ROLE_CREATION_FAIL
+  ROLE_CREATION_FAIL,
+  CLEAR_SUCCESS
 
 } from './types';
 
@@ -104,6 +105,12 @@ export const login = ({ email, password }) => dispatch => {
 export const logout = () => {
   return {
     type: LOGOUT_SUCCESS
+  };
+};
+
+export const clearSuccess = () => {
+  return {
+    type: CLEAR_SUCCESS
   };
 };
 

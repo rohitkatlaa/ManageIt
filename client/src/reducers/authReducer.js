@@ -10,7 +10,8 @@ import {
   ROLE_CREATION_SUCCESS,
   ROLE_CREATION_FAIL, 
   PASSWORD_RESET_FAIL,
-  PASSWORD_RESET_SUCCESS
+  PASSWORD_RESET_SUCCESS,
+  CLEAR_SUCCESS
 } from '../actions/types';
 
 const initialState = {
@@ -55,14 +56,19 @@ export default function(state = initialState, action) {
         token:action.payload.token
       };
     case PASSWORD_RESET_SUCCESS:
-      localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         isAuthenticated: true,
+        success: true
       }
     case PASSWORD_RESET_FAIL:
       return {
         ...state,
+      }
+    case CLEAR_SUCCESS:
+      return {
+        ...state,
+        success: false
       }
     case AUTH_ERROR:
     case LOGIN_FAIL:

@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { resetPassword } from '../../actions/resetActions';
 import { clearErrors } from '../../actions/errorActions';
+import { clearSuccess } from '../../actions/authActions';
 
 class ResetModal extends Component{
 
@@ -30,20 +31,29 @@ class ResetModal extends Component{
         isAuthenticated: PropTypes.bool.isRequired,
         error: PropTypes.object.isRequired,
         resetPassword: PropTypes.func.isRequired,
-        clearErrors: PropTypes.func.isRequired
+        clearErrors: PropTypes.func.isRequired,
+        success: PropTypes.bool.isRequired
     };
 
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated } = this.props;
+        const { error, isAuthenticated, success } = this.props;
         if (error !== prevProps.error) {
           // Check for register error
           if (error.id === 'PASSWORD_RESET_FAIL') {
             this.setState({ msg: error.msg.msg });
           } else {
             this.setState({ msg: null });
+            
           }
         }
+
+        if(success !== prevProps.success){
+            this.setState({msg: 'Password Updated Successfully!!!'});
+            this.props.clearSuccess();
+        }
     
+
+        
         // If authenticated, close modal
         // If authenticated, close modal
         
@@ -54,7 +64,7 @@ class ResetModal extends Component{
         this.setState({
             modal: !this.state.modal,
         });
-        console.log(this.state.modal);
+        //console.log(this.state.modal);
 
     };
 
@@ -124,8 +134,9 @@ class ResetModal extends Component{
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
-    error: state.error
+    error: state.error,
+    success: state.auth.success
 });
 
-export default connect(mapStateToProps, {resetPassword, clearErrors})(ResetModal);
+export default connect(mapStateToProps, {resetPassword, clearErrors, clearSuccess})(ResetModal);
 
