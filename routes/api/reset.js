@@ -28,11 +28,11 @@ router.post('/', auth, (req, res) => {
               var query = { _id: req.user.id };
               var reset = { $set: {password: hash} };
               User.findOneAndUpdate( query, reset, {new: true})
-                  .then(user => res.json({msg: "Password Updated Successfully!"}));
+                  .then(user => res.json({msg: 'Password Updated Successfully!' }));
             })
           })
         }else{
-          res.json({msg: "Passwords Don't Match"})
+          return res.status(400).json({msg: "Passwords Don't Match"});
         }
       });
 });

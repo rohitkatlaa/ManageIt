@@ -22,7 +22,8 @@ export const resetPassword = ({newPassword, verifyPassword}) => (dispatch, getSt
    axios.post('/api/reset', body, tokenConfig(getState))
         .then(res => {
           dispatch({
-            type: PASSWORD_RESET_SUCCESS
+            type: PASSWORD_RESET_SUCCESS,
+            payload: res.data
           });
         })
         .catch(err => {

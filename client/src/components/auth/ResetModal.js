@@ -11,7 +11,7 @@ import {
   NavLink,
   Alert
 } from 'reactstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { resetPassword } from '../../actions/resetActions';
@@ -23,7 +23,7 @@ class ResetModal extends Component{
         modal: false,
         newPassword: null,
         verifyPassword: null,
-        msg: null
+        msg: null,
     };
 
     static propTypes = {
@@ -33,11 +33,10 @@ class ResetModal extends Component{
         clearErrors: PropTypes.func.isRequired
     };
 
-
     componentDidUpdate(prevProps) {
         const { error, isAuthenticated } = this.props;
         if (error !== prevProps.error) {
-          // Check for Reset error
+          // Check for register error
           if (error.id === 'PASSWORD_RESET_FAIL') {
             this.setState({ msg: error.msg.msg });
           } else {
@@ -46,18 +45,17 @@ class ResetModal extends Component{
         }
     
         // If authenticated, close modal
-        if (this.state.modal) {
-          if (isAuthenticated) {
-            this.toggle();
-          }
-        }
-      }
+        // If authenticated, close modal
+        
+    }
 
     toggle = () => {
         this.props.clearErrors();
         this.setState({
-            modal: !this.state.modal
+            modal: !this.state.modal,
         });
+        console.log(this.state.modal);
+
     };
 
     onChange = (e) => {
@@ -65,6 +63,7 @@ class ResetModal extends Component{
     };
 
     onSubmit = e => {
+        this.props.clearErrors();
         e.preventDefault();
         const { newPassword, verifyPassword } = this.state;
         const Password = {
@@ -72,8 +71,8 @@ class ResetModal extends Component{
             verifyPassword
         };
         this.props.resetPassword(Password);
-        console.log(Password);
-        this.toggle();
+        //console.log(Password);
+       // this.toggle();
     };
 
     render(){
