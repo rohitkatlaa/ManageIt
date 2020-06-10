@@ -49,11 +49,8 @@ class ResetModal extends Component{
 
         if(success !== prevProps.success){
             this.setState({msg: 'Password Updated Successfully!!!'});
-            this.props.clearSuccess();
+            //this.props.clearSuccess();
         }
-    
-
-        
         // If authenticated, close modal
         // If authenticated, close modal
         
@@ -64,8 +61,8 @@ class ResetModal extends Component{
         this.setState({
             modal: !this.state.modal,
         });
+        this.props.clearSuccess();
         //console.log(this.state.modal);
-
     };
 
     onChange = (e) => {
