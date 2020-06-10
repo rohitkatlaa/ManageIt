@@ -91,8 +91,10 @@ class ResetModal extends Component{
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Reset Password</ModalHeader>
                     <ModalBody>
-                        {this.state.msg ? (
-                        <Alert color='danger'>{this.state.msg}</Alert>
+                        {                  
+                        this.state.msg ? ( this.props.success ? (
+                            <Alert color='success'>{this.state.msg}</Alert>
+                        ): <Alert color='danger'>{this.state.msg}</Alert>
                         ) : null} 
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
