@@ -19,7 +19,6 @@ export const createRole = ({ name, primaryCategory, subCategory, deletePermissio
 
   // Request body
   const body = JSON.stringify({ name, primaryCategory, subCategory, deletePermission, statusPermission, minDays, minVotes, pushComplain });
- // console.log(body);
   axios
     .post('/api/roles', body,  tokenConfig(getState))
     .then(res =>{

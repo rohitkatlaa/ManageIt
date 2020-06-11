@@ -25,6 +25,7 @@ class ResetModal extends Component{
         newPassword: null,
         verifyPassword: null,
         msg: null,
+        greenAlert: false,
     };
 
     static propTypes = {
@@ -35,6 +36,21 @@ class ResetModal extends Component{
         success: PropTypes.bool.isRequired
     };
 
+
+    toggle = () => {
+        this.props.clearErrors();
+        this.setState({
+            modal: !this.state.modal,
+        });
+    };
+
+    successMsg = () => {
+        setTimeout(() => this.setState({
+            ...this.state,
+            greenAlert: false
+        }), 2000 );
+    }
+
     componentDidUpdate(prevProps) {
         const { error, isAuthenticated, success } = this.props;
         if (error !== prevProps.error) {
@@ -42,28 +58,18 @@ class ResetModal extends Component{
           if (error.id === 'PASSWORD_RESET_FAIL') {
             this.setState({ msg: error.msg.msg });
           } else {
-            this.setState({ msg: null });
-            
+            this.setState({ msg: null }); 
           }
         }
 
-        if(success !== prevProps.success){
-            this.setState({msg: 'Password Updated Successfully!!!'});
-            //this.props.clearSuccess();
+        if(success == true){
+            this.toggle();
+            this.props.clearSuccess();
+            this.state.greenAlert = true;
+            this.successMsg();
+            console.log(this.state.greenAlert);
         }
-        // If authenticated, close modal
-        // If authenticated, close modal
-        
     }
-
-    toggle = () => {
-        this.props.clearErrors();
-        this.setState({
-            modal: !this.state.modal,
-        });
-        this.props.clearSuccess();
-        //console.log(this.state.modal);
-    };
 
     onChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
@@ -77,25 +83,37 @@ class ResetModal extends Component{
             newPassword,
             verifyPassword
         };
+        
         this.props.resetPassword(Password);
-        //console.log(Password);
-       // this.toggle();
     };
 
+    
+
+
     render(){
+
+        const resetSuccess = (
+            <Alert color="success" style={{position:'absolute' }} >
+                Password Reset Successfull!!
+            </Alert>
+        );
         return(
+            
             <div>
+
+                {
+                    this.state.greenAlert ? resetSuccess: null
+                }
+
                 <NavLink onClick={this.toggle} href="#">
                     Reset Password
                 </NavLink>
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Reset Password</ModalHeader>
                     <ModalBody>
-                        {                  
-                        this.state.msg ? ( this.props.success ? (
-                            <Alert color='success'>{this.state.msg}</Alert>
-                        ): <Alert color='danger'>{this.state.msg}</Alert>
-                        ) : null} 
+                        {this.state.msg ? (
+                        <Alert color='danger'>{this.state.msg}</Alert>
+                        ) : null}
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
                                 <Label for='password'>New Password</Label>
