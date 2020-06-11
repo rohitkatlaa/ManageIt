@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import RegisterModal from './auth/RegisterModal';
+import RegisterMultipleUsersModal from './RegisterMultipleUsersModal';
 import LoginModal from './auth/LoginModal';
 import Logout from './auth/Logout';
 
@@ -42,18 +43,19 @@ class AppNavbar extends Component {
           </span>
         </NavItem>
         { this.props.userType==="staff" ?
+        <Fragment>
           <NavItem>
               <RegisterModal />
           </NavItem>
-          :
-          <Fragment/>
-        }
-        { this.props.userType === "staff"?
-        <NavItem>
-          <NavLink href='/createRole/'>
-            Create a Role
-          </NavLink>
-        </NavItem>
+          <NavItem>
+              <RegisterMultipleUsersModal />
+          </NavItem>
+          <NavItem>
+            <NavLink href='/createRole/'>
+              Create a Role
+            </NavLink>
+          </NavItem>
+        </Fragment>
         :
         <Fragment />
         }
