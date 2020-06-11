@@ -11,7 +11,6 @@ import {
   NavLink,
   Alert
 } from 'reactstrap';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { resetPassword } from '../../actions/resetActions';
@@ -67,7 +66,6 @@ class ResetModal extends Component{
             this.props.clearSuccess();
             this.state.greenAlert = true;
             this.successMsg();
-            console.log(this.state.greenAlert);
         }
     }
 

@@ -16,22 +16,34 @@ export const resetPassword = ({newPassword, verifyPassword}) => (dispatch, getSt
     }
   };
 
-   // Request body
+   // Checking password matching in frontend itself before sending request to server
    const body = JSON.stringify({ newPassword, verifyPassword });
 
-   axios.post('/api/reset', body, tokenConfig(getState))
-        .then(res => {
-          dispatch({
-            type: PASSWORD_RESET_SUCCESS,
-            payload: res.data
-          });
-        })
-        .catch(err => {
-          dispatch(
-            returnErrors(err.response.data, err.response.status, 'PASSWORD_RESET_FAIL')
-          );
-          dispatch({
-            type: PASSWORD_RESET_FAIL
+   if(newPassword!==verifyPassword){
+        dispatch(
+          returnErrors({msg: "Passwords Don't Match"}, 400, 'PASSWORD_RESET_FAIL')
+        );
+        dispatch({
+          type: PASSWORD_RESET_FAIL
+        });
+   }
+
+   //post request to server if passwords match
+   else{
+      axios.post('/api/reset', body, tokenConfig(getState))
+      .then(res => {
+        dispatch({
+          type: PASSWORD_RESET_SUCCESS,
+          payload: res.data
         });
       })
+      .catch(err => {
+        dispatch(
+          returnErrors(err.response.data, err.response.status, 'PASSWORD_RESET_FAIL')
+        );
+        dispatch({
+          type: PASSWORD_RESET_FAIL
+      });
+    })
+  }
 };
