@@ -32,7 +32,7 @@ class ResetModal extends Component{
         error: PropTypes.object.isRequired,
         resetPassword: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired,
-        success: PropTypes.bool.isRequired
+        success: PropTypes.bool
     };
 
 
