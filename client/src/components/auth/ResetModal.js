@@ -24,7 +24,6 @@ class ResetModal extends Component{
         newPassword: null,
         verifyPassword: null,
         msg: null,
-        greenAlert: false,
     };
 
     static propTypes = {
@@ -43,12 +42,6 @@ class ResetModal extends Component{
         });
     };
 
-    successMsg = () => {
-        setTimeout(() => this.setState({
-            ...this.state,
-            greenAlert: false
-        }), 2000 );
-    }
 
     componentDidUpdate(prevProps) {
         const { error, isAuthenticated, success } = this.props;
@@ -64,8 +57,6 @@ class ResetModal extends Component{
         if(success == true){
             this.toggle();
             this.props.clearSuccess();
-            this.state.greenAlert = true;
-            this.successMsg();
         }
     }
 
@@ -90,18 +81,9 @@ class ResetModal extends Component{
 
     render(){
 
-        const resetSuccess = (
-            <Alert color="success" style={{position:'absolute' }} >
-                Password Reset Successfull!!
-            </Alert>
-        );
         return(
             
             <div>
-
-                {
-                    this.state.greenAlert ? resetSuccess: null
-                }
 
                 <NavLink onClick={this.toggle} href="#">
                     Reset Password
