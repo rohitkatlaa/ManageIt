@@ -11,7 +11,8 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   ROLE_CREATION_SUCCESS,
-  ROLE_CREATION_FAIL
+  ROLE_CREATION_FAIL,
+  CLEAR_SUCCESS
 
 } from './types';
 
@@ -107,6 +108,12 @@ export const logout = () => {
   };
 };
 
+export const clearSuccess = () => {
+  return {
+    type: CLEAR_SUCCESS
+  };
+};
+
 // Setup config/headers and token
 export const tokenConfig = getState => {
   // Get token from localstorage
@@ -123,7 +130,6 @@ export const tokenConfig = getState => {
   if (token) {
     config.headers['x-auth-token'] = token;
   }
-
   return config;
 };
 
